@@ -335,7 +335,7 @@ export default {
           // this.imgUrl = reader.result;
           let formData = new FormData();
           formData.append("file", file);
-
+          console.log(formData,555555555)
           this.file = formData;
         };
       // }

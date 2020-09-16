@@ -124,7 +124,7 @@
           <el-button
             size="small"
             type="primary"
-            @click="uploadBtnClick(scope.$index)"
+            @click="uploadBtnClick(scope.row.spareId)"
             >上传<i class="el-icon-upload el-icon--right"></i
           ></el-button>
         </template>
@@ -167,7 +167,7 @@
     <!-- 上传附件对话框 -->
     <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
       <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
-      <el-upload
+      <!-- <el-upload
         class="upload-demo"
         drag
         action="111111"
@@ -182,12 +182,24 @@
         <div class="el-upload__tip" slot="tip">
           只能上传jpg/png文件，且不超过500kb
         </div>
+      </el-upload> -->
+
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="#"
+        :http-request="handleUploadForm"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="currentAttachList"
+        :headers="headersObj"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -242,7 +254,8 @@ import {
   delSpare,
   addSpare,
   updateSpare,
-  exportSpare
+  exportSpare,
+  uploadAnnx
 } from "@/api/devsys/spare";
 
 export default {
@@ -303,7 +316,13 @@ export default {
       //当前点击打开弹框的按钮在表格中是那一列
       currentIndex: 0,
       //是否包含重复的文件名称,默认不包含值为false
-      isRepeat: false
+      isRepeat: false,
+      // 上传图片给的请求头
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
+      },
+      clickedId: ''
     };
   },
   created() {
@@ -467,19 +486,40 @@ export default {
         .catch(function() {});
     },
     //#########################文件上传################################
-    uploadBtnClick(index) {
+    uploadBtnClick(id) {
+      console.log(id)
+      this.clickedId = id
       // 获取上传按钮对应那一列表格数据中的附件列表，赋值给currentAttachList
-      this.currentAttachList = this.spareList[index].attachList;
+      // this.currentAttachList = this.spareList[index].attachList;
       // 将控制弹框显示的dialogVisible设置为true，让弹框显示
       this.dialogVisible = true;
       // 设置currentIndex
-      this.currentIndex = index;
+      // this.currentIndex = index;
+    },
+    submitUpload() {
+      console.log("XXXXX")
+
+      this.$refs.upload.submit();
+    },
+    handleUploadForm(param){
+      console.log(param.file,1111)
+      let formData = new FormData();
+      formData.append("spareId", this.clickedId)
+      formData.append("files", param.file)
+      console.log(this.clickedId,formData.spareId,formData,111222)
+      uploadAnnx(formData).then(res => {
+        console.log(res)
+      })
+
     },
     uploadSuccess(response, file, fileList) {
       var currentIndex = this.currentIndex;
       this.spareList[currentIndex].attachList.push({
         name: file.name
       });
+    },
+    handlePreview(file) {
+      console.log(file);
     },
     beforeRemove(file, fileList) {
       if (this.isRepeat == false) {

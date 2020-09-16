@@ -537,6 +537,10 @@ export default {
       if(row != undefined) {
         this.form.parentKks = row.newKks
       }
+      this.kksOptions=[{
+        id: row.newKks,
+        label: row.equName
+      }]
       this.open = true;
       this.title = "添加kks编码";
     },

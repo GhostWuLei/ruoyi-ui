@@ -384,7 +384,7 @@ export default {
     getList() {
       this.loading = true;
       listTreeKks(this.queryParams).then(response => {
-        //console.log(response, 111);
+        console.log(response, 111);
         // this.kksList = this.handleTree(
         //   response.rows,
         //   "newKks",

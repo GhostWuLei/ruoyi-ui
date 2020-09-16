@@ -51,3 +51,13 @@ export function exportSpare(query) {
     params: query
   })
 }
+
+//上传文件
+export function uploadAnnx(formData) {
+  // axios.post('http://localhost:8080/upload/file', formData)
+  return request({
+    url: '/devsys/spare/uploadFile',
+    method: 'post',
+    params: formData
+  })
+}
