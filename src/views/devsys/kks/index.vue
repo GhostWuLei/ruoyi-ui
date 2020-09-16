@@ -131,12 +131,14 @@
       v-loading="loading"
       border
       :data="kksList"
-      row-key="kksId"
+      :key="111"
+      row-key="newKks"
       lazy
       :load = "load"
       :row-style="{ height: 15 + 'px' }"
       :cell-style="{ padding: '0px' }"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      ref="table"
     >
       <el-table-column width="270" label="新kks编码" prop="newKks">
         <template slot-scope="scope">
@@ -304,7 +306,8 @@ import {
   getChildrenById,
   getTreeRoots,
   getTreeByParentKks,
-  getUpdateInfo
+  getUpdateInfo,
+  getByParentKks
 } from "@/api/devsys/kks";
 import { getAllDiagrams } from "@/api/picsys/diagram"
 import { Treeselect, LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
@@ -494,7 +497,7 @@ export default {
       console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
       console.log(parentNode,111)
       if(action === LOAD_CHILDREN_OPTIONS){
-        getTreeByParentKks(parentNode.id).then(res => {
+        getByParentKks(parentNode.id).then(res => {
           console.log(res)
           console.log(parentNode,34343)
           let arr = [];
@@ -584,7 +587,8 @@ export default {
               if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
-                this.getList();
+                this.refreshRow(this.form.parentKks)
+                // this.getList();
               } else {
                 this.msgError(response.msg);
               }
@@ -611,9 +615,34 @@ export default {
         .then(() => {
           this.getList();
           this.msgSuccess("删除成功");
+          console.log(row,2323232)
+          this.refreshRow(row.parentKks)
         })
         .catch(function() {});
     },
+
+    //在增加和删除后更新该节点的父节点 这个地方必须要用id 怀疑是row-key的问题
+    // 猜测不错 就是row-key的问题
+    refreshRow(parentKKS){
+      console.log(parentKKS, "XCXCXC")
+      getByParentKks(parentKKS).then(res => {
+        if(res.code===200) {
+          console.log(res.data, 23456)
+          this.$set(this.$refs.table.store.states.lazyTreeNodeMap, parentKKS, res.data)
+        }
+      })
+    },
+
+    // refreshRow(id){
+    //   console.log("XCXCXC")
+    //   getChildrenById(id).then(res => {
+    //     if(res.code===200) {
+    //       console.log(res.data, 23456)
+    //       this.$set(this.$refs.table.store.states.lazyTreeNodeMap, id, res.data)
+    //     }
+    //   })
+    // },
+    
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;

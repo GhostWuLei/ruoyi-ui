@@ -108,3 +108,11 @@ export function getUpdateInfo(kksId) {
     method: 'get'
   })
 }
+
+// 获取treeselect懒加载数据
+export function getByParentKks(parentKks) {
+  return request({
+    url: '/devsys/kks/getByParentKks/'+parentKks,
+    method: 'get'
+  })
+}
