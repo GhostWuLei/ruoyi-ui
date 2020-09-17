@@ -128,21 +128,22 @@
     </el-row>
 
     <el-table
-      ref="table"
       v-loading="loading"
       border
       :data="kksList"
+      :key="111"
       row-key="newKks"
       lazy
       :load = "load"
       :row-style="{ height: 15 + 'px' }"
       :cell-style="{ padding: '0px' }"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      ref="table"
     >
       <el-table-column width="270" label="新kks编码" prop="newKks">
         <template slot-scope="scope">
           <svg-icon
-            v-if="scope.row.hasChildren == true"
+            v-if="scope.row.children.length"
             :icon-class="'file'"
           ></svg-icon>
           <svg-icon v-else :icon-class="'fileChild'"></svg-icon>
@@ -175,14 +176,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['devsys:kks:edit']"
-            >修改</el-button>
+            >修改</el-button
+          >
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleAdd(scope.row)"
             v-hasPermi="['devsys:kks:add']"
-            >新增</el-button>
+            >新增</el-button
+          >
           <el-button
             v-if="scope.row.parentKks != 0"
             size="mini"
@@ -190,7 +193,8 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['devsys:kks:remove']"
-            >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -208,14 +212,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="90px">
         
           <el-form-item label="上级设备" prop="parentKks">
-            <treeselect
-              border 
-              v-model="form.parentKks"
-              :options="kksOptions"
-              :load-options="loadOptions" 
-              placeholder="选择父编码" 
-              @open='opentree'
-            />
+            <treeselect border v-model="form.parentKks" :options="kksOptions" :load-options="loadOptions" placeholder="选择父编码" @open='opentree' />
           </el-form-item>
         
         <el-form-item label="设备名称" prop="equName">
@@ -280,7 +277,8 @@
             v-model="upload.updateSupport"
           />是否更新已经存在的kks编码数据
           <el-link type="info" style="font-size:12px" @click="importTemplate"
-            >下载模板</el-link>
+            >下载模板</el-link
+          >
         </div>
         <div class="el-upload__tip" style="color:red" slot="tip">
           提示：仅允许导入“xls”或“xlsx”格式文件！
@@ -321,7 +319,7 @@ export default {
   components: { Treeselect },
   data() {
     return {
-      listArr: [],
+      flag: false,
       // 要展开的行，数值的元素是row的key值
       expands: ["1", "2", "3", "4"],
 
@@ -383,7 +381,7 @@ export default {
         // 上传的地址
         url: process.env.VUE_APP_BASE_API + "/devsys/kks/importData"
       },
-      // KKS下拉树选项 
+      // KKS下拉树选项
       kksOptions: [],
       // 系统图下拉选项
       diagramsOption: [],
@@ -405,21 +403,17 @@ export default {
       this.loading = true;
       getRoots().then(response => {
         this.kksList = response.data;
-        console.log(this.kksList, 'kkslist');
+        console.log(this.kksList);
         this.loading = false;
-        this.listArr = this.listArr.concat(this.kksList)
       });
     },
 
     //懒加载方法
     load(tree, treeNode,resolve) {
-      console.log(tree, treeNode, 5435);
+      console.log(tree, treeNode,5435);
         getChildrenById(tree.kksId).then(res => {
+          console.log(res.data)
           resolve(res.data)
-
-          // this.listArr = this.listArr.concat(res.data)
-          // const deplist = this.handleTree(this.listArr, "newKks","parentKks", "children", '0')
-          // console.log(deplist, 45678)
         })
     },
 
@@ -461,57 +455,58 @@ export default {
       this.handleQuery();
     },
 
-    // /** 转换kks数据结构 */
+    /** 转换kks数据结构 */
     // normalizer(node) {
-    //   console.log(node, this.kksOptions, 'node111111111')
+    //   console.log(node)
     //   if (node.children && !node.children.length) {
     //     delete node.children;
     //   }
-    //   return {
+    //   let tmpObj = {
     //     id: node.id,
-    //     label: node.equName,
-    //     children: node.children
+    //     label: node.label,
+    //     children: null
     //   };
+    //   // if(!node.hasChildren){
+    //   //   delete tmpObj.children
+    //   // }
+    //   return tmpObj
     // },
 
     opentree(){
-      this.kksOptions=[]
-      this.getTreeselect()
-    },
+      this.kksOptions=[]
+      this.getTreeselect()
+    },
 
-    /** 查询kks下拉树结构 */
-    // 重点：treeselect 绑定的值需要与normalizer输出的id相对应，若是空值，请不要给空字符串，0，等，因为会出现unknown，并且当选择了值以后，会出现选中的值后面会拼上unknown
-    getTreeselect() {
-      getTreeRoots().then(res => {
-        console.log(res, 2222)
-        for(let index of res.data){
-           let rootModeInfo = {} ;
-           rootModeInfo.id = index.id
-           rootModeInfo.label = index.label;
-           rootModeInfo.children = null;
-           this.kksOptions.push(rootModeInfo);
-         }
-         console.log(this.kksOptions, 654657)
-      })
-    },
+    /** 查询kks下拉树结构 */
+    getTreeselect() {
+      getTreeRoots().then(res => {
+        console.log(res, 2222)
+        for(let index of res.data){
+           let rootModeInfo = {} ;
+           rootModeInfo.id = index.id
+           rootModeInfo.label = index.label;
+           rootModeInfo.children = null;
+           this.kksOptions.push(rootModeInfo);
+         }
+         console.log(this.kksOptions, 654657)
+      })
+    },
 
     // 懒加载treeselect其他节点
     loadOptions({ action, parentNode, callback }) {
+      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
       console.log(parentNode,111)
       if(action === LOAD_CHILDREN_OPTIONS){
-        getTreeByParentKks(parentNode.id).then(res => {
-          console.log(res.data, 'res')
+        getByParentKks(parentNode.id).then(res => {
+          console.log(res)
           console.log(parentNode,34343)
-
           let arr = [];
           //debugger
           for(let index of res.data){
             let chiledModeInfo = {} ;
             chiledModeInfo.id = index.id
             chiledModeInfo.label = index.label;
-            if(index.hasChildren) {
-              chiledModeInfo.children = null;
-            }
+            chiledModeInfo.children = null;
             arr.push(chiledModeInfo);
           }
           parentNode.children = arr
@@ -542,34 +537,27 @@ export default {
       this.kksOptions=[]
       this.getTreeselect();
       this.getDiagramList();
-      // 有这2个 form.newKks  kksOptions  就不会出现unknown了
-      this.form.parentKks = row.newKks
-      this.kksOptions = [{
+      if(row != undefined) {
+        this.form.parentKks = row.newKks
+      }
+      this.kksOptions=[{
         id: row.newKks,
         label: row.equName
       }]
       this.open = true;
       this.title = "添加kks编码";
     },
-
     /** 修改按钮操作 */
     handleUpdate(row) {
-      // console.log(row, 12345);
       this.reset()
       this.kksOptions=[]
-      this.getTreeselect()
       this.getDiagramList()
-      this.title = "修改kks编码";
       const kksId = row.kksId || this.ids
-      // 获取本节点和父节点信息
-      this.getInfoAndParent(kksId)
-    },
-
-    getInfoAndParent(kksId) {
       getUpdateInfo(kksId).then(response => {
         console.log(response,1111)
         this.form = response.data;
         this.open = true;
+        this.title = "修改kks编码";
         this.kksOptions=[{
           id: response.parent.newKks,
           label: response.parent.equName,
@@ -580,7 +568,6 @@ export default {
         }]
       });
     },
-
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
@@ -591,7 +578,6 @@ export default {
                 this.msgSuccess("修改成功");
                 this.open = false;
                 // this.getList();
-                // 重新加载父节点
                 this.refreshRow(this.form.parentKks)
               } else {
                 this.msgError(response.msg);
@@ -602,9 +588,8 @@ export default {
               if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
-                // this.getList();
-                // 重新加载父节点
                 this.refreshRow(this.form.parentKks)
+                // this.getList();
               } else {
                 this.msgError(response.msg);
               }
@@ -631,13 +616,15 @@ export default {
         .then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-          this.refreshRow(row.parentKks);
+          console.log(row,2323232)
+          this.refreshRow(row.parentKks)
         })
         .catch(function() {});
     },
 
-    // 更新父节点  解决数据跟新问题
-     refreshRow(parentKKS){
+    //在增加和删除后更新该节点的父节点 这个地方必须要用id 怀疑是row-key的问题
+    // 猜测不错 就是row-key的问题
+    refreshRow(parentKKS){
       console.log(parentKKS, "XCXCXC")
       getByParentKks(parentKKS).then(res => {
         if(res.code===200) {
@@ -647,6 +634,16 @@ export default {
       })
     },
 
+    // refreshRow(id){
+    //   console.log("XCXCXC")
+    //   getChildrenById(id).then(res => {
+    //     if(res.code===200) {
+    //       console.log(res.data, 23456)
+    //       this.$set(this.$refs.table.store.states.lazyTreeNodeMap, id, res.data)
+    //     }
+    //   })
+    // },
+    
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;

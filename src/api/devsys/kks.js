@@ -109,7 +109,7 @@ export function getUpdateInfo(kksId) {
   })
 }
 
-// 获取treeselect懒加载数据
+// 获取子节点列表
 export function getByParentKks(parentKks) {
   return request({
     url: '/devsys/kks/getByParentKks/'+parentKks,

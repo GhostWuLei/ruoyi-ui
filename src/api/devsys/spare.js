@@ -57,7 +57,8 @@ export function uploadAnnx(formData) {
   // axios.post('http://localhost:8080/upload/file', formData)
   return request({
     url: '/devsys/spare/uploadFile',
+    headers: {'Content-Type': 'multipart/form-data'},
     method: 'post',
-    params: formData
+    data: formData
   })
 }

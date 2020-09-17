@@ -115,14 +115,15 @@
           <span>{{ parseTime(scope.row.consumeTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="附件名称" align="center" prop="fname" />
+      <el-table-column label="附件名称" align="center" prop="fname">
+      </el-table-column>
       <el-table-column label="附件路径" align="center" prop="fpath" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column prop="attach" label="附件管理" width="140">
         <template slot-scope="scope">
           <!-- 上传按钮绑定click事件 -->
           <el-button
-            size="small"
+            size="mini"
             type="primary"
             @click="uploadBtnClick(scope.row.spareId)"
             >上传<i class="el-icon-upload el-icon--right"></i
@@ -506,12 +507,12 @@ export default {
       let formData = new FormData();
       formData.append("spareId", this.clickedId)
       formData.append("files", param.file)
-      console.log(this.clickedId,formData.spareId,formData,111222)
+      console.log(formData.get("spareId"),formData.get("files"),1111222)
       uploadAnnx(formData).then(res => {
         console.log(res)
       })
-
     },
+
     uploadSuccess(response, file, fileList) {
       var currentIndex = this.currentIndex;
       this.spareList[currentIndex].attachList.push({
@@ -557,7 +558,7 @@ export default {
           return false;
         }
       }
-    }
+    },
   }
 };
 </script>
