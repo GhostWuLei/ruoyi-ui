@@ -119,15 +119,21 @@
       </el-table-column>
       <el-table-column label="附件路径" align="center" prop="fpath" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" width="140">
+      <el-table-column prop="attach" label="附件管理" width="180">
         <template slot-scope="scope">
           <!-- 上传按钮绑定click事件 -->
           <el-button
             size="mini"
             type="primary"
-            @click="uploadBtnClick(scope.row.spareId)"
-            >上传<i class="el-icon-upload el-icon--right"></i
-          ></el-button>
+            @click="uploadBtnClick(scope.row.spareId)">
+            <i  class="el-icon-upload el-icon--right">上传</i>
+          </el-button>
+          <el-button style="position: absolute"
+            size="small"
+            type="success"
+            @click="uploadBtnClick(scope.row.spareId)">
+            <i  class="el-icon-upload el-icon--right">下载</i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -498,19 +504,29 @@ export default {
       // this.currentIndex = index;
     },
     submitUpload() {
-      console.log("XXXXX")
 
       this.$refs.upload.submit();
     },
     handleUploadForm(param){
-      console.log(param.file,1111)
       let formData = new FormData();
       formData.append("spareId", this.clickedId)
       formData.append("files", param.file)
+<<<<<<< HEAD
       console.log(formData.get("spareId"),formData.get("files"),1111222)
+=======
+>>>>>>> origin
       uploadAnnx(formData).then(res => {
-        console.log(res)
+        this.$message({
+          type: 'success',
+          message: '上传成功!'
+        });
       })
+<<<<<<< HEAD
+=======
+      this.dialogVisible = false;
+      this.handleRemove(param)
+
+>>>>>>> origin
     },
 
     uploadSuccess(response, file, fileList) {

@@ -54,11 +54,14 @@ export function exportSpare(query) {
 
 //上传文件
 export function uploadAnnx(formData) {
-  // axios.post('http://localhost:8080/upload/file', formData)
   return request({
     url: '/devsys/spare/uploadFile',
     headers: {'Content-Type': 'multipart/form-data'},
     method: 'post',
+<<<<<<< HEAD
     data: formData
+=======
+    data: formData,
+>>>>>>> origin
   })
 }
