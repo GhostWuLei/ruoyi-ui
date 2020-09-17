@@ -58,10 +58,6 @@ export function uploadAnnx(formData) {
     url: '/devsys/spare/uploadFile',
     headers: {'Content-Type': 'multipart/form-data'},
     method: 'post',
-<<<<<<< HEAD
     data: formData
-=======
-    data: formData,
->>>>>>> origin
   })
 }
