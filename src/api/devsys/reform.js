@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import axios from 'axios'
+import { getToken } from '@/utils/auth'
 
 // 查询重大技改列表
 export function listReform(query) {
@@ -49,5 +51,23 @@ export function exportReform(query) {
     url: '/devsys/reform/export',
     method: 'get',
     params: query
+  })
+}
+export function uploadAnnx(formData) {
+  return request({
+    url: '/devsys/reform/uploadFile',
+    headers: {'Content-Type': 'multipart/form-data'},
+    method: 'post',
+    data: formData
+  })
+}
+//下载文件
+export const download = (reformId) => {
+  return axios({
+    baseURL: process.env.VUE_APP_BASE_API,
+    url: '/devsys/material/download/'+reformId,
+    headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
+    responseType: 'blob',  //responseType: 'arraybuffer'，
+    method: 'post'
   })
 }

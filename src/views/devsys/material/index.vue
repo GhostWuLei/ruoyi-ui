@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
-    
+
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="资料名称" prop="materialName">
-        <el-input 
+        <el-input
           v-model="queryParams.materialName"
           placeholder="请输入资料名称"
           clearable
@@ -64,14 +64,20 @@
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="附件管理" width="250" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="small"
             type="primary"
             icon="el-icon-upload"
-            @click="handleAnnex(scope.row)"
+            @click="handleAnnex(scope.row.materialId)"
           >附件</el-button>
+          <el-button style="position: absolute"
+                     size="small"
+                     type="success"
+                     @click="downloadBtnClick(scope.row)">
+            <i  class="el-icon-upload el-icon--right">下载</i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -133,13 +139,32 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="#"
+        :http-request="handleUpload"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="currentAttachList"
+        :headers="headersObj"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
+      </span>
+    </el-dialog>
 
   </div>
 </template>
 
 
 <script>
-import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial, exportMaterial } from "@/api/devsys/material";
+import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial, exportMaterial,uploadAnnx,download} from "@/api/devsys/material";
 export default {
   props: {
     currentEquipId:{
@@ -150,6 +175,11 @@ export default {
   name: "Material",
   data() {
     return {
+      currentAttachList:[],
+      //id
+      materialId:[],
+      //弹框
+      dialogVisible: false,
       // 遮罩层
       loading: true,
       // 非单个禁用
@@ -169,6 +199,10 @@ export default {
         equipId: undefined,
         materialName: undefined,
         materialType: undefined
+      },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
       },
       // 资料列表
       materialList: [],
@@ -204,6 +238,37 @@ export default {
       }
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleUpload(param){
+      let formData = new FormData();
+      formData.append("materialId", this.materialId)
+      formData.append("files", param.file)
+      uploadAnnx(formData).then(res => {
+        this.$message({
+          type: 'success',
+          message: '上传成功!'
+        });
+      })
+      this.dialogVisible = false;
+      this.handleRemove(param)
+    },
+    handleRemove(file, fileList) {
+      if (this.isRepeat == false) {
+        var currentIndex = this.currentIndex;
+        var attachList = this.spareList[currentIndex].attachList;
+        var tempList = [];
+        for (var i = 0; i < attachList.length; i++) {
+          if (file.name != attachList[i].name) {
+            tempList.push(attachList[i]);
+          }
+        }
+        this.spareList[currentIndex].attachList = tempList;
+      } else {
+        this.isRepeat = false;
+      }
+    },
     // 查询技术资料列表
     getList() {
       //console.log(this.queryParams.equipId)
@@ -263,9 +328,42 @@ export default {
       this.single = selection.length != 1
       this.multiple = !selection.length
     },
+    headersObj: {
+      Authorization: document.cookie.split("=")[1],
+      "Content-Type": "multipart/form-data"
+    },
     // 附件管理按钮操作
-    handleAnnex(){
-      console.log('handleAnnex')
+    handleAnnex(materialId){
+      this.dialogVisible = true;
+      this.materialId=materialId;
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    //下载
+    downloadBtnClick(row) {
+      download(row.materialId).then(res => {
+        if (res) {
+          const content = res.data;
+          const blob = new Blob([content]);
+          // const fileName = `${rowName}.zip`;
+          const fileName = row.fname;
+          if ("download" in document.createElement("a")) {
+            // 非IE下载
+            const elink = document.createElement("a");
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click();
+            URL.revokeObjectURL(elink.href); // 释放URL 对象
+            document.body.removeChild(elink);
+          } else {
+            // IE10+下载
+            navigator.msSaveBlob(blob, fileName);
+          }
+        }
+      })
     },
     // 添加修改框的确认按钮
     submitForm: function() {

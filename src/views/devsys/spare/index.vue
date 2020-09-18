@@ -512,13 +512,13 @@ export default {
       let formData = new FormData();
       formData.append("spareId", this.clickedId)
       formData.append("files", param.file)
-      console.log(formData.get("spareId"),formData.get("files"),1111222)
       uploadAnnx(formData).then(res => {
         this.$message({
           type: 'success',
           message: '上传成功!'
         });
       })
+      this.$refs.upload.clearFiles()
       this.dialogVisible = false;
       this.handleRemove(param)
     },

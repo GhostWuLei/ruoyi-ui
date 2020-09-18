@@ -1,5 +1,6 @@
 import request from '@/utils/request'
-
+import axios from 'axios'
+import { getToken } from '@/utils/auth'
 // 查询技术资料列表
 export function listMaterial(query) {
   return request({
@@ -51,3 +52,23 @@ export function exportMaterial(query) {
     params: query
   })
 }
+//上传文件
+export function uploadAnnx(formData) {
+  return request({
+    url: '/devsys/material/uploadFile',
+    headers: {'Content-Type': 'multipart/form-data'},
+    method: 'post',
+    data: formData
+  })
+}
+//下载文件
+export const download = (materialId) => {
+  return axios({
+    baseURL: process.env.VUE_APP_BASE_API,
+    url: '/devsys/material/download/'+materialId,
+    headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
+    responseType: 'blob',  //responseType: 'arraybuffer'，
+    method: 'post'
+  })
+}
+

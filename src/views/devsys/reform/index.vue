@@ -82,18 +82,24 @@
         </template>
       </el-table-column>
       <el-table-column label="完成情况" align="center" prop="completeStatus" />
-      <el-table-column label="是否验收" align="center" prop="isCheck" /> 
+      <el-table-column label="是否验收" align="center" prop="isCheck" />
       <el-table-column label="验收者" align="center" prop="checker" />
       <el-table-column label="专业" align="center" prop="major" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="260">
         <template slot-scope="scope">
           <el-button
             size="small"
             type="primary"
             icon="el-icon-upload"
-            @click="handleAnnex(scope.row)"
+            @click="handleAnnex(scope.row.reformId)"
           >附件</el-button>
+          <el-button style="position: absolute"
+                     size="small"
+                     type="success"
+                     @click="downloadBtnClick(scope.row)">
+            <i  class="el-icon-upload el-icon--right">下载</i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -115,7 +121,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -170,11 +176,30 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="#"
+        :http-request="handleUploadForm"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="currentAttachList"
+        :headers="headersObj"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listReform, getReform, delReform, addReform, updateReform, exportReform } from "@/api/devsys/reform";
+import { listReform, getReform, delReform, addReform, updateReform, exportReform ,uploadAnnx,download } from "@/api/devsys/reform";
 
 export default {
   props:{
@@ -212,6 +237,13 @@ export default {
         completeStatus: undefined,
         workUnit: undefined,
       },
+      currentAttachList:[],
+      dialogVisible:false,
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
+      },
+      reformId:[],
       // 表单参数
       form: {},
       // 表单校验
@@ -233,6 +265,13 @@ export default {
   },
   created() {
     this.getList();
+  },
+  watch: {
+    currentEquipId(newval, oldval) {
+      console.log(newval, oldval, 123);
+      this.queryParams.equipId = this.currentEquipId;
+      this.getList();
+    }
   },
   methods: {
     /** 查询重大技改列表 */
@@ -303,6 +342,27 @@ export default {
         this.title = "修改重大技改";
       });
     },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleRemove(file, fileList) {
+      if (this.isRepeat == false) {
+        var currentIndex = this.currentIndex;
+        var attachList = this.spareList[currentIndex].attachList;
+        var tempList = [];
+        for (var i = 0; i < attachList.length; i++) {
+          if (file.name != attachList[i].name) {
+            tempList.push(attachList[i]);
+          }
+        }
+        this.spareList[currentIndex].attachList = tempList;
+      } else {
+        this.isRepeat = false;
+      }
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
@@ -358,9 +418,52 @@ export default {
           this.download(response.msg);
         }).catch(function() {});
     },
+    //上传
+    handleUploadForm(param){
+      let formData = new FormData();
+      formData.append("reformId", this.reformId)
+      formData.append("files", param.file)
+      uploadAnnx(formData).then(res => {
+        this.$message({
+          type: 'success',
+          message: '上传成功!'
+        });
+      })
+      this.$refs.upload.clearFiles()
+      this.dialogVisible = false;
+      this.handleRemove(param)
+
+    },
     // 附件管理
-    handleAnnex(row) {
-      console.log('handleAnnex函数执行了')
+    handleAnnex(id){
+      this.reformId=id;
+      this.dialogVisible = true;
+    },
+    downloadBtnClick(row){
+      console.log(row,11112233)
+      download(row.spareId).then(res => {
+        console.log(res,111112266)
+        if (res) {
+          const content = res.data;
+          const blob = new Blob([content]);
+          // const fileName = `${rowName}.zip`;
+          const fileName = row.fname;
+          if ("download" in document.createElement("a")) {
+            // 非IE下载
+            const elink = document.createElement("a");
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click();
+            URL.revokeObjectURL(elink.href); // 释放URL 对象
+            document.body.removeChild(elink);
+          } else {
+            // IE10+下载
+            navigator.msSaveBlob(blob, fileName);
+          }
+        }
+      })
     }
   }
 };

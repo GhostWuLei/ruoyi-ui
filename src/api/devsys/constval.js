@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import axios from 'axios'
+import { getToken } from '@/utils/auth'
 
 // 查询设备定值列表
 export function listConstval(query) {
@@ -49,5 +51,23 @@ export function exportConstval(query) {
     url: '/devsys/constval/export',
     method: 'get',
     params: query
+  })
+}
+//上传文件
+export function uploadAnnx(formData) {
+  return request({
+    url: '/devsys/constval/uploadFile',
+    headers: {'Content-Type': 'multipart/form-data'},
+    method: 'post',
+    data: formData
+  })
+}
+export const download = (materialId) => {
+  return axios({
+    baseURL: process.env.VUE_APP_BASE_API,
+    url: '/devsys/constval/download/'+materialId,
+    headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
+    responseType: 'blob',  //responseType: 'arraybuffer'，
+    method: 'post'
   })
 }
