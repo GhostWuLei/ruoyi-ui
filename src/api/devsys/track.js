@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import axios from 'axios'
+import { getToken } from '@/utils/auth'
 
 // 查询设备跟踪列表
 export function listTrack(query) {
@@ -49,5 +51,23 @@ export function exportTrack(query) {
     url: '/devsys/track/export',
     method: 'get',
     params: query
+  })
+}
+//上传文件
+export function uploadAnnx(formData) {
+  return request({
+    url: '/devsys/track/uploadFile',
+    headers: {'Content-Type': 'multipart/form-data'},
+    method: 'post',
+    data: formData
+  })
+}
+export const download = (trackId) => {
+  return axios({
+    baseURL: process.env.VUE_APP_BASE_API,
+    url: '/devsys/track/download/'+trackId,
+    headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
+    responseType: 'blob',  //responseType: 'arraybuffer'，
+    method: 'post'
   })
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    
+
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="100px">
       <el-form-item label="跟踪事件名称" prop="trackName">
         <el-input
@@ -92,14 +92,20 @@
       <el-table-column label="完成情况" align="center" prop="completeStatus" />
       <el-table-column label="执行单位" align="center" prop="workUnit" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="280">
         <template slot-scope="scope">
           <el-button
             size="small"
             type="primary"
             icon="el-icon-upload"
-            @click="handleAnnex(scope.row)"
+            @click="handleAnnex(scope.row.trackId)"
           >附件</el-button>
+          <el-button style="position: absolute"
+                     size="small"
+                     type="success"
+                     @click="downloadBtnClick(scope.row)">
+            <i  class="el-icon-upload el-icon--right">下载</i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -121,7 +127,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -181,11 +187,30 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="#"
+        :http-request="handleUploadForm"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="currentAttachList"
+        :headers="headersObj"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listTrack, getTrack, delTrack, addTrack, updateTrack, exportTrack } from "@/api/devsys/track";
+import { listTrack, getTrack, delTrack, addTrack, updateTrack, exportTrack,uploadAnnx,download } from "@/api/devsys/track";
 
 export default {
   props: {
@@ -225,6 +250,13 @@ export default {
         completeStatus: undefined,
         workUnit: undefined,
       },
+      currentAttachList:[],
+      dialogVisible:false,
+      trackId:[],
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
+      },
       // 表单参数
       form: {},
       // 表单校验
@@ -247,6 +279,13 @@ export default {
     this.queryParams.equipId = this.currentEquipId
     this.getList();
   },
+  watch: {
+    currentEquipId(newval, oldval) {
+      console.log(newval, oldval, 123);
+      this.queryParams.equipId = this.currentEquipId;
+      this.getList();
+    }
+  },
   methods: {
     /** 查询设备跟踪列表 */
     getList() {
@@ -261,6 +300,24 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    //上传
+    handleUploadForm(param){
+      let formData = new FormData();
+      formData.append("trackId", this.trackId)
+      formData.append("files", param.file)
+      uploadAnnx(formData).then(res => {
+        this.$message({
+          type: 'success',
+          message: '上传成功!'
+        });
+      })
+      this.dialogVisible = false;
+      this.handleRemove(param)
+
     },
     // 表单重置
     reset() {
@@ -357,8 +414,27 @@ export default {
           this.msgSuccess("删除成功");
         }).catch(function() { console.log('删除失败') });
     },
-    handleAnnex(row){
-      console.log('handleAnnex函数执行了')
+    handleAnnex(id){
+      this.trackId=id;
+      this.dialogVisible = true;
+    },
+    handleRemove(file, fileList) {
+      if (this.isRepeat == false) {
+        var currentIndex = this.currentIndex;
+        var attachList = this.spareList[currentIndex].attachList;
+        var tempList = [];
+        for (var i = 0; i < attachList.length; i++) {
+          if (file.name != attachList[i].name) {
+            tempList.push(attachList[i]);
+          }
+        }
+        this.spareList[currentIndex].attachList = tempList;
+      } else {
+        this.isRepeat = false;
+      }
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -372,6 +448,30 @@ export default {
         }).then(response => {
           this.download(response.msg);
         }).catch(function() {});
+    },
+    downloadBtnClick(row){
+      download(row.trackId).then(res => {
+        if (res) {
+          const content = res.data;
+          const blob = new Blob([content]);
+          // const fileName = `${rowName}.zip`;
+          const fileName = row.fname;
+          if ("download" in document.createElement("a")) {
+            // 非IE下载
+            const elink = document.createElement("a");
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click();
+            URL.revokeObjectURL(elink.href); // 释放URL 对象
+            document.body.removeChild(elink);
+          } else {
+            // IE10+下载
+            navigator.msSaveBlob(blob, fileName);
+          }
+        }
+      })
     }
   }
 };

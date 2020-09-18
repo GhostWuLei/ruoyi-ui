@@ -506,14 +506,12 @@ export default {
       // this.currentIndex = index;
     },
     submitUpload() {
-
       this.$refs.upload.submit();
     },
     handleUploadForm(param){
       let formData = new FormData();
       formData.append("spareId", this.clickedId)
       formData.append("files", param.file)
-      console.log(formData.get("spareId"),formData.get("files"),1111222)
       uploadAnnx(formData).then(res => {
         this.$message({
           type: 'success',
