@@ -328,6 +328,7 @@ export default {
           message: '上传成功!'
         });
       })
+      this.$refs.upload.clearFiles()
       this.dialogVisible = false;
       this.handleRemove(param)
 
