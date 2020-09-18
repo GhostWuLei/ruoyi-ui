@@ -97,6 +97,7 @@
       v-loading="loading"
       :data="spareList"
       @selection-change="handleSelectionChange"
+      border
     >
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="备件名称" align="center" prop="spareName" />
@@ -131,7 +132,7 @@
           <el-button style="position: absolute"
             size="small"
             type="success"
-            @click="uploadBtnClick(scope.row.spareId)">
+            @click="downloadBtnClick(scope.row)">
             <i  class="el-icon-upload el-icon--right">下载</i>
           </el-button>
         </template>
@@ -262,7 +263,8 @@ import {
   addSpare,
   updateSpare,
   exportSpare,
-  uploadAnnx
+  uploadAnnx,
+  download
 } from "@/api/devsys/spare";
 
 export default {
@@ -569,6 +571,32 @@ export default {
         }
       }
     },
+    downloadBtnClick(row){
+      console.log(row,11112233)
+      download(row.spareId).then(res => {
+        console.log(res,111112266)
+        if (res) {
+          const content = res.data;
+          const blob = new Blob([content]);
+          // const fileName = `${rowName}.zip`;
+          const fileName = row.fname;
+          if ("download" in document.createElement("a")) {
+              // 非IE下载
+              const elink = document.createElement("a");
+              elink.download = fileName;
+              elink.style.display = "none";
+              elink.href = URL.createObjectURL(blob);
+              document.body.appendChild(elink);
+              elink.click();
+              URL.revokeObjectURL(elink.href); // 释放URL 对象
+              document.body.removeChild(elink);
+          } else {
+              // IE10+下载
+              navigator.msSaveBlob(blob, fileName);
+          }
+        }
+      })
+    }
   }
 };
 </script>
