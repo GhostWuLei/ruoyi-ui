@@ -94,10 +94,11 @@
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.reformId)"
           >附件</el-button>
-          <el-button style="position: absolute"
-                     size="small"
-                     type="success"
-                     @click="downloadBtnClick(scope.row)">
+          <el-button 
+            style="position: absolute"
+            size="small"
+            type="success"
+            @click="downloadBtnClick(scope.row)">
             <i  class="el-icon-upload el-icon--right">下载</i>
           </el-button>
         </template>
