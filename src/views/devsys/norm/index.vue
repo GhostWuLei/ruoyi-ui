@@ -56,14 +56,21 @@
       <el-table-column label="计量单位" align="center" prop="normUnit" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="创建者" align="center" prop="createBy" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="附件管理" width="180">
         <template slot-scope="scope">
+          <!-- 上传按钮绑定click事件 -->
           <el-button
-            size="small"
+            size="mini"
             type="primary"
-            icon="el-icon-upload"
-            @click="handleAnnex(scope.row)"
-          >附件</el-button>
+            @click="uploadBtnClick(scope.row.normId)">
+            <i  class="el-icon-upload el-icon--right">上传</i>
+          </el-button>
+          <el-button style="position: absolute"
+            size="small"
+            type="success"
+            @click="downloadBtnClick(scope.row)">
+            <i  class="el-icon-upload el-icon--right">下载</i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -116,12 +123,34 @@
       </div>
     </el-dialog>
 
+    <!-- 上传附件对话框 -->
+    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+      <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="#"
+        :http-request="handleUploadForm"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="currentAttachList"
+        :headers="headersObj"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
+      </span>
+    </el-dialog>
+
 
   </div>
 </template>
 
 <script>
-import { listNorm, getNorm, delNorm, addNorm, updateNorm, exportNorm } from "@/api/devsys/norm";
+import { listNorm, getNorm, delNorm, addNorm, updateNorm, exportNorm, uploadAnnx, download } from "@/api/devsys/norm";
 export default {
    props: {
     currentEquipId:{
@@ -166,8 +195,20 @@ export default {
           { required: true, message: "设备ID不能为空", trigger: "blur" }
         ],
       },
-      // 当前资料所属的设备ID
-      // currentEquipId: undefined,
+      //===================文件上传============================
+      dialogVisible: false,
+      // 设置当前文件列表数据currentAttachList，每次用户点击上传按钮，该数据就会被赋值为当前按钮那一列normList中的attachList数据
+      currentAttachList: [],
+      //当前点击打开弹框的按钮在表格中是那一列
+      currentIndex: 0,
+      //是否包含重复的文件名称,默认不包含值为false
+      isRepeat: false,
+      // 上传图片给的请求头
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
+      },
+      clickedId: ''
     }
   },
   created() {
@@ -176,12 +217,23 @@ export default {
     this.queryParams.equipId = this.currentEquipId
     this.getList()
   },
+  watch: {
+    currentEquipId(newval, oldval) {
+      console.log(newval, oldval, 123);
+      this.queryParams.equipId = this.currentEquipId;
+      this.getList();
+    }
+  },
   methods: {
     /** 查询设备规范列表 */
     getList() {
       this.loading = true
       listNorm(this.queryParams).then(response => {
         this.normList = response.rows
+        // 添加附件的数组
+        this.normList.forEach((val, index) => {
+          val.attachList = [];
+        });
         this.total = response.total
         this.loading = false
       })
@@ -284,6 +336,107 @@ export default {
     },
     handleAnnex(){
       console.log('handleAnnex函数执行了')
+    },
+    //#########################文件上传################################
+    uploadBtnClick(id) {
+      console.log(id)
+      this.clickedId = id
+      // 获取上传按钮对应那一列表格数据中的附件列表，赋值给currentAttachList
+      // this.currentAttachList = this.normList[index].attachList;
+      // 将控制弹框显示的dialogVisible设置为true，让弹框显示
+      this.dialogVisible = true;
+      // 设置currentIndex
+      // this.currentIndex = index;
+    },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleUploadForm(param){
+      let formData = new FormData();
+      formData.append("normId", this.clickedId)
+      formData.append("files", param.file)
+      console.log(formData.get("normId"),formData.get("files"),1111222)
+      uploadAnnx(formData).then(res => {
+        this.$message({
+          type: 'success',
+          message: '上传成功!'
+        });
+      })
+      this.dialogVisible = false;
+      this.handleRemove(param)
+    },
+
+    uploadSuccess(response, file, fileList) {
+      var currentIndex = this.currentIndex;
+      this.normList[currentIndex].attachList.push({
+        name: file.name
+      });
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    beforeRemove(file, fileList) {
+      if (this.isRepeat == false) {
+        return this.$confirm(
+          "此操作将永久删除" + file.name + "文件, 是否继续?"
+        );
+      }
+    },
+    handleRemove(file, fileList) {
+      if (this.isRepeat == false) {
+        var currentIndex = this.currentIndex;
+        var attachList = this.normList[currentIndex].attachList;
+        var tempList = [];
+        for (var i = 0; i < attachList.length; i++) {
+          if (file.name != attachList[i].name) {
+            tempList.push(attachList[i]);
+          }
+        }
+        this.normList[currentIndex].attachList = tempList;
+      } else {
+        this.isRepeat = false;
+      }
+    },
+    beforeUpload(file) {
+      var currentIndex = this.currentIndex;
+      //首先需要获取当前已经上传的文件列表
+      var list = this.normList[currentIndex].attachList;
+      //循环文件列表判断是否有重复的文件
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].name == file.name) {
+          this.$message.error(file.name + "文件名重复");
+          //添加逻辑：得知上传了重复文件后，设置一个标志值为true，提供给beforeRemove函数使用
+          this.isRepeat = true;
+          //记得一定要返回false,否则控件继续会执行上传操作
+          return false;
+        }
+      }
+    },
+    downloadBtnClick(row){
+      console.log(row,11112233)
+      download(row.normId).then(res => {
+        console.log(res,111112266)
+        if (res) {
+          const content = res.data;
+          const blob = new Blob([content]);
+          // const fileName = `${rowName}.zip`;
+          const fileName = row.fname;
+          if ("download" in document.createElement("a")) {
+              // 非IE下载
+              const elink = document.createElement("a");
+              elink.download = fileName;
+              elink.style.display = "none";
+              elink.href = URL.createObjectURL(blob);
+              document.body.appendChild(elink);
+              elink.click();
+              URL.revokeObjectURL(elink.href); // 释放URL 对象
+              document.body.removeChild(elink);
+          } else {
+              // IE10+下载
+              navigator.msSaveBlob(blob, fileName);
+          }
+        }
+      })
     }
   }
 }

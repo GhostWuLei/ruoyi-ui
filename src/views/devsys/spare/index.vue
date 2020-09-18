@@ -506,7 +506,6 @@ export default {
       // this.currentIndex = index;
     },
     submitUpload() {
-
       this.$refs.upload.submit();
     },
     handleUploadForm(param){
@@ -522,7 +521,6 @@ export default {
       })
       this.dialogVisible = false;
       this.handleRemove(param)
-
     },
 
     uploadSuccess(response, file, fileList) {
