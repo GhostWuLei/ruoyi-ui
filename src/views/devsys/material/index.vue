@@ -64,15 +64,16 @@
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" width="250" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="附件管理" width="168" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            style="float: left;"
             size="small"
             type="primary"
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.materialId)"
           >附件</el-button>
-          <el-button style="position: absolute"
+          <el-button style="float: right"
                      size="small"
                      type="success"
                      @click="downloadBtnClick(scope.row)">

@@ -94,8 +94,8 @@
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.reformId)"
           >上传</el-button>
-          <el-button 
-            style="position: absolute"
+          <el-button
+            style="float: right"
             size="small"
             type="success"
             @click="downloadBtnClick(scope.row)">

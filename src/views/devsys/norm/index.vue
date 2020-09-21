@@ -60,12 +60,13 @@
         <template slot-scope="scope">
           <!-- 上传按钮绑定click事件 -->
           <el-button
+            style="float: left"
             size="mini"
             type="primary"
             @click="uploadBtnClick(scope.row.normId)">
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
-          <el-button style="position: absolute"
+          <el-button style="float:right"
             size="small"
             type="success"
             @click="downloadBtnClick(scope.row)">
