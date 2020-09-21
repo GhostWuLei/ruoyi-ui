@@ -71,3 +71,9 @@ export const download = (reformId) => {
     method: 'post'
   })
 }
+export function getEquip() {
+  return request({
+    url: '/devsys/reform/getEquip',
+    method: 'get',
+  })
+}

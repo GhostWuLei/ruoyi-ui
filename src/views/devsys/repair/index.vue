@@ -11,7 +11,7 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>  
+      </el-form-item>
       <el-form-item label="检修性质" prop="repairKind">
         <el-select v-model="queryParams.repairKind" placeholder="请选择检修性质" clearable size="small">
           <el-option label="请选择字典生成" value="" />
@@ -407,6 +407,7 @@ export default {
           message: '上传成功!'
         });
       })
+      this.$refs.upload.clearFiles()
       this.dialogVisible = false;
       this.handleRemove(param)
     },

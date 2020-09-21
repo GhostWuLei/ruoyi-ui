@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    
+
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
@@ -32,10 +32,10 @@
       <el-table-column width="250" label="设备规格" prop="equSpecifications"/>
       <!-- <el-table-column label="部门" align="center" prop="department" /> -->
       <el-table-column label="专业" prop="major"></el-table-column>
-      
+
       <!-- <el-table-column label="班组" align="center" prop="clazz" /> -->
       <el-table-column width="210" label="备注" prop="remark" />
-      
+
       <el-table-column
         label="操作"
         align="center"
@@ -57,12 +57,12 @@
 
     <!-- 添加或修改kks编码对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="550px">
-      
+
     </el-dialog>
 
     <!-- kks编码导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px">
-      
+
     </el-dialog>
 
   </div>
@@ -116,6 +116,10 @@ export default {
         major: undefined,
         clazz: undefined,
         parentKks: undefined
+      },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
       },
       // 表单参数
       form: {},
@@ -200,7 +204,7 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
-    
+
 
     /** 查询kks下拉树结构 */
     getTreeselect() {
@@ -254,8 +258,8 @@ export default {
         }
       });
     },
-   
-   
+
+
   }
 };
 </script>

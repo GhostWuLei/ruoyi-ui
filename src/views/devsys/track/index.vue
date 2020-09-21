@@ -76,12 +76,12 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="跟踪事件名称" align="center" prop="trackName" />
       <el-table-column label="跟踪事件内容" align="center" prop="trackContent" />
-      <el-table-column label="开始时间" align="center" prop="startTime" width="180">
+      <el-table-column label="开始时间" align="center" prop="startTime" width="153">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.startTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="结束时间" align="center" prop="finishTime" width="180">
+      <el-table-column label="结束时间" align="center" prop="finishTime" width="153">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.finishTime) }}</span>
         </template>
@@ -92,15 +92,15 @@
       <el-table-column label="完成情况" align="center" prop="completeStatus" />
       <el-table-column label="执行单位" align="center" prop="workUnit" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="280">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="168">
         <template slot-scope="scope">
-          <el-button
+          <el-button style="float: left"
             size="small"
             type="primary"
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.trackId)"
           >附件</el-button>
-          <el-button style="position: absolute"
+          <el-button style="float: right;"
                      size="small"
                      type="success"
                      @click="downloadBtnClick(scope.row)">
@@ -108,7 +108,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="111">
         <template slot-scope="scope">
           <el-button
             size="mini"

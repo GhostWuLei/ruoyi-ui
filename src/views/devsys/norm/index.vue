@@ -92,7 +92,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -362,6 +362,7 @@ export default {
           message: '上传成功!'
         });
       })
+      this.$refs.upload.clearFiles()
       this.dialogVisible = false;
       this.handleRemove(param)
     },

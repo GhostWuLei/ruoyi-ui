@@ -134,10 +134,10 @@
       <el-table-column width="250" label="设备规格" prop="equSpecifications"/>
       <!-- <el-table-column label="部门" align="center" prop="department" /> -->
       <el-table-column label="专业" prop="major"></el-table-column>
-      
+
       <!-- <el-table-column label="班组" align="center" prop="clazz" /> -->
       <el-table-column width="210" label="备注" prop="remark" />
-      
+
       <el-table-column
         label="操作"
         align="center"
@@ -216,7 +216,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        
+
         <el-form-item label="设备规格" prop="equSpecifications">
           <el-input
             v-model="form.equSpecifications"
@@ -224,7 +224,7 @@
             placeholder="请输入内容"
           />
         </el-form-item>
-      </el-form> 
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -318,6 +318,10 @@ export default {
         major: undefined,
         clazz: undefined,
         parentKks: undefined
+      },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
       },
       // 表单参数
       form: {},

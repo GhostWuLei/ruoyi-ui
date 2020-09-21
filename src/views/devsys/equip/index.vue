@@ -46,7 +46,7 @@
                   <i class="el-icon-folder" v-if="data.children"></i>
                   <i class="el-icon-document" v-else></i>
                   &nbsp;{{ data.label }}
-              </span>              
+              </span>
             </span>
           </el-tree>
         </div>
@@ -343,6 +343,10 @@ export default {
         status: undefined,
         department: undefined
       },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
+      },
       // 表单参数
       form: {},
       // 表单校验
@@ -423,6 +427,9 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    headersObj(){
+
     },
     /** 查询部门下拉树结构 */
     getTreeselect() {
@@ -613,7 +620,7 @@ export default {
 
 <style lang="scss" scoped>
  //修改Tree样式
- 
+
  .el-tree-node {
      .el-tree-node__expand-icon.is-leaf{
      display: none;
@@ -676,8 +683,8 @@ export default {
 //   width: 10px;
 // }
 // //修改展开图标
-// .el-tree .el-icon-caret-right:before 
-// {  
+// .el-tree .el-icon-caret-right:before
+// {
 //     background: url("../../assets/img/展开.png") no-repeat 0 1px;
 //     content: '';
 //     display: block;
@@ -687,19 +694,19 @@ export default {
 //     background-size: 14px;
 // }
 // //修改收起图标
-// .el-tree .el-tree-node__expand-icon.expanded.el-icon-caret-right:before 
-// {  
-//     background: url("../../assets/img/收起.png") no-repeat -1px 0px;  
-//     content: '';  
-//     display: block;  
-//     width: 14px;  
-//     height: 14px;  
-//     font-size: 14px;  
+// .el-tree .el-tree-node__expand-icon.expanded.el-icon-caret-right:before
+// {
+//     background: url("../../assets/img/收起.png") no-repeat -1px 0px;
+//     content: '';
+//     display: block;
+//     width: 14px;
+//     height: 14px;
+//     font-size: 14px;
 //     background-size: 16px;
 // }//修改原本点击展开或收起图标会旋转的样式
-// .el-tree .el-tree-node__expand-icon.expanded 
-// {  
-//     -webkit-transform: rotate(0deg);  
+// .el-tree .el-tree-node__expand-icon.expanded
+// {
+//     -webkit-transform: rotate(0deg);
 //     transform: rotate(0deg);
 // }
 .slot-t-node span{
@@ -716,6 +723,6 @@ export default {
 }
 //设置对齐图标
 .fa{
-  padding-left:3px !important; 
+  padding-left:3px !important;
 }
 </style>

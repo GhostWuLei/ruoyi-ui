@@ -35,7 +35,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="getEquip">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -85,9 +85,10 @@
       <el-table-column label="验收者" align="center" prop="checker" />
       <el-table-column label="专业" align="center" prop="major" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="260">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="168">
         <template slot-scope="scope">
           <el-button
+            style="float: left"
             size="small"
             type="primary"
             icon="el-icon-upload"
@@ -102,7 +103,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="111">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -136,8 +137,15 @@
         <el-form-item label="技改名称" prop="reformName">
           <el-input v-model="form.reformName" placeholder="请输入技改名称" />
         </el-form-item>
-        <el-form-item label="设备ID" prop="equipId">
-          <el-input v-model="form.equipId" placeholder="请输入设备ID" />
+        <el-form-item label="设备" prop="equipId" >
+          <el-select v-model="form.equipId" placeholder="请选择设备">
+            <el-option
+              v-for="item in options"
+              :key="item.equipId"
+              :label="item.equipName"
+              :value="item.equipId">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="专业" prop="major">
           <el-input v-model="form.major" placeholder="请输入专业" />
@@ -199,7 +207,7 @@
 </template>
 
 <script>
-import { listReform, getReform, delReform, addReform, updateReform, exportReform ,uploadAnnx,download } from "@/api/devsys/reform";
+import { listReform, getReform, delReform, addReform, updateReform, exportReform ,uploadAnnx,download,getEquip} from "@/api/devsys/reform";
 
 export default {
   props:{
@@ -237,12 +245,14 @@ export default {
         completeStatus: undefined,
         workUnit: undefined,
       },
+      options:[],
       currentAttachList:[],
       dialogVisible:false,
       headersObj: {
         Authorization: document.cookie.split("=")[1],
         "Content-Type": "multipart/form-data"
       },
+      value: '',
       reformId:[],
       // 表单参数
       form: {},
@@ -265,6 +275,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getEquip();
   },
   watch: {
     currentEquipId(newval, oldval) {
@@ -344,6 +355,11 @@ export default {
     },
     submitUpload() {
       this.$refs.upload.submit();
+    },
+    getEquip(){
+      getEquip().then(res=>{
+        this.options=res.data
+      })
     },
     handleRemove(file, fileList) {
       if (this.isRepeat == false) {

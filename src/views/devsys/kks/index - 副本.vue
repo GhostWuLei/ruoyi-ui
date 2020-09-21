@@ -151,7 +151,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -263,6 +263,10 @@ export default {
         major: undefined,
         clazz: undefined,
         parentKks: undefined,
+      },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
       },
       // 表单参数
       form: {},

@@ -35,10 +35,10 @@
       </el-form-item>
       <el-form-item label="专业" prop="major">
         <el-select v-model="form.major" placeholder="请选择">
-          <el-option 
-          v-for="dict in majorOptions" 
-          :key="dict.dictValue" 
-          :label="dict.dictLabel" 
+          <el-option
+          v-for="dict in majorOptions"
+          :key="dict.dictValue"
+          :label="dict.dictLabel"
           :value="dict.dictValue"
           ></el-option>
           </el-select>
@@ -151,7 +151,7 @@
       <el-table-column width="90" label="专业" prop="major"/>
       <!-- <el-table-column label="班组" align="center" prop="clazz" /> -->
       <el-table-column width="210" label="备注" prop="remark" />
-      
+
       <el-table-column
         label="操作"
         align="center"
@@ -198,11 +198,11 @@
     <!-- 添加或修改kks编码对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="550px">
       <el-form ref="form" :model="form" :rules="rules" label-width="90px">
-        
+
           <el-form-item label="上级设备" prop="parentKks">
             <treeselect border v-model="form.parentKks" :options="kksOptions" :normalizer="normalizer" placeholder="选择父编码" />
           </el-form-item>
-        
+
         <el-form-item label="设备名称" prop="equName">
           <el-input v-model="form.equName" placeholder="请输入设备名称" />
         </el-form-item>
@@ -332,6 +332,10 @@ export default {
         major: undefined,
         clazz: undefined,
         parentKks: undefined
+      },
+      headersObj: {
+        Authorization: document.cookie.split("=")[1],
+        "Content-Type": "multipart/form-data"
       },
       // 表单参数
       form: {},
