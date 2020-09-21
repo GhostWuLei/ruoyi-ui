@@ -82,12 +82,12 @@
       <el-table-column label="变更名称" align="center" prop="alterationName" />
       <el-table-column label="变更内容" align="center" prop="alterationContent" />
       <el-table-column label="变更类别" align="center" prop="alterationType" />
-      <el-table-column label="变更时间" align="center" prop="alterationTime" width="180">
+      <el-table-column label="变更时间" align="center" prop="alterationTime" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.alterationTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="验收时间" align="center" prop="checkDate" width="180">
+      <el-table-column label="验收时间" align="center" prop="checkDate" width="151">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.checkDate) }}</span>
         </template>
@@ -97,16 +97,17 @@
       <el-table-column label="验收者" align="center" prop="checkMan" />
       <el-table-column label="专业" align="center" prop="major" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" width="180">
+      <el-table-column prop="attach" label="附件管理" width="178">
         <template slot-scope="scope">
           <!-- 上传按钮绑定click事件 -->
           <el-button
+            style="float: left"
             size="mini"
             type="primary"
             @click="uploadBtnClick(scope.row.alterationId)">
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
-          <el-button style="position: absolute"
+          <el-button style="float: right"
             size="small"
             type="success"
             @click="downloadBtnClick(scope.row)">
@@ -114,7 +115,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="115">
         <template slot-scope="scope">
           <el-button
             size="mini"

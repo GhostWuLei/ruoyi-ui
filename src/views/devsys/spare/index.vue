@@ -521,7 +521,7 @@ export default {
       })
       this.$refs.upload.clearFiles()
       this.dialogVisible = false;
-      this.handleRemove(param)
+      this.getList();
     },
 
     uploadSuccess(response, file, fileList) {

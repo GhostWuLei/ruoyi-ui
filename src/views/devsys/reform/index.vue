@@ -85,16 +85,17 @@
       <el-table-column label="验收者" align="center" prop="checker" />
       <el-table-column label="专业" align="center" prop="major" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="260">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width" width="168">
         <template slot-scope="scope">
           <el-button
+            style="float: left"
             size="small"
             type="primary"
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.reformId)"
           >附件</el-button>
           <el-button
-            style="position: absolute"
+            style="float: right"
             size="small"
             type="success"
             @click="downloadBtnClick(scope.row)">
@@ -102,7 +103,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="111">
         <template slot-scope="scope">
           <el-button
             size="mini"

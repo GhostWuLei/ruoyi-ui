@@ -68,19 +68,19 @@
     </el-row>
 
     <!-- 表格部分 -->
-    <el-table v-loading="loading" :data="constvalList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="constvalList"@selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="定值名称" align="center" prop="constvalName" />
       <el-table-column label="原定值" align="center" prop="oldValue" />
       <el-table-column label="新定值" align="center" prop="newValue" />
       <el-table-column label="执行者" align="center" prop="worker" />
       <el-table-column label="监督者" align="center" prop="supervisor" />
-      <el-table-column label="要求执行时间" align="center" prop="requireTime" width="180">
+      <el-table-column label="要求执行时间" align="center" prop="requireTime" width="156">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.requireTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实际执行时间" align="center" prop="actualTime" width="180">
+      <el-table-column label="实际执行时间" align="center" prop="actualTime" width="156">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.actualTime) }}</span>
         </template>
@@ -88,15 +88,15 @@
       <el-table-column label="最大值" align="center" prop="maxValue" />
       <el-table-column label="最小值" align="center" prop="minValue" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width"  width="260">
+      <el-table-column label="附件管理" align="center" class-name="small-padding fixed-width"  width="168">
         <template slot-scope="scope" >
-          <el-button
+          <el-button style="float: left"
             size="small"
             type="primary"
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.constvalId)"
           >附件</el-button>
-          <el-button style="position: absolute"
+          <el-button style="float: right;"
                      size="small"
                      type="success"
                      @click="downloadBtnClick(scope.row)">
@@ -104,7 +104,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width"  width="150">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width"  width="120">
         <template slot-scope="scope">
           <el-button
             size="mini"
