@@ -16,20 +16,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="新编码" prop="newKks">
+      <el-form-item label="新kks编码" prop="newKks">
         <el-input
           v-model="queryParams.newKks"
           placeholder="请输入新kks编码"
-          clearable
-          size="small"
-          @clear="getList"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="旧编码" prop="oldKks">
-        <el-input
-          v-model="queryParams.oldKks"
-          placeholder="请输入旧kks编码"
           clearable
           size="small"
           @clear="getList"
@@ -149,7 +139,7 @@
       :cell-style="{ padding: '0px' }"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column width="300" label="新kks编码" prop="newKks">
+      <el-table-column width="270" label="新kks编码" prop="newKks">
         <template slot-scope="scope">
           <svg-icon
             v-if="scope.row.hasChildren == true"
@@ -159,18 +149,18 @@
           {{ scope.row.newKks }}
         </template>
       </el-table-column>
-      <el-table-column label="设备名称" prop="equName" />
-      <el-table-column label="旧kks编码" prop="oldKks" />
-      <el-table-column width="300" label="所属系统图" prop="diagramName">
+      <el-table-column width="180" label="设备名称" prop="equName" />
+      <el-table-column width="160" label="旧kks编码" prop="oldKks" />
+      <el-table-column width="200" label="所属系统图" prop="diagramName">
         <template slot-scope="scope">
           <div class="pointer" @click="onClickToImg(scope.row.diagramName)">{{scope.row.diagramName}}</div>
         </template>
       </el-table-column>
-      <!-- <el-table-column width="250" label="设备规格" prop="equSpecifications"/> -->
+      <el-table-column width="250" label="设备规格" prop="equSpecifications"/>
       <!-- <el-table-column width="90" label="专业" prop="major" :formatter="majorFormat" /> -->
-      <el-table-column label="专业" prop="major"/>
+      <el-table-column width="90" label="专业" prop="major"/>
       <!-- <el-table-column label="班组" align="center" prop="clazz" /> -->
-      <el-table-column label="备注" prop="remark" />
+      <el-table-column width="210" label="备注" prop="remark" />
       
       <el-table-column
         label="操作"
@@ -398,8 +388,8 @@ export default {
       // 系统图下拉选项
       diagramsOption: [],
       // 专业下拉选项
-      majorOptions: [],
-      oldParentKKS: ''
+      majorOptions: []
+
     };
   },
   created() {
@@ -457,8 +447,8 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      const {equName, newKks, oldKks, diagramName, major} = this.queryParams
-      if(!equName && !newKks && !oldKks && !diagramName && !major) return this.msgError('搜索内容为空')
+      const {equName, newKks, diagramName, major} = this.queryParams
+      if(!equName && !newKks && !diagramName && !major) return this.msgError('搜索内容为空')
       // this.queryParams.pageNum = 1;
       console.log("开始执行")
       listKks(this.queryParams).then(res => {
@@ -469,7 +459,6 @@ export default {
     resetQuery() {
       this.resetForm("queryForm");
       this.handleQuery();
-      // this.getList();
     },
 
     // /** 转换kks数据结构 */
@@ -549,10 +538,6 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd(row) {
-      if(row.parentKks != undefined){
-        console.log(12345)
-        this.oldParentKKS = JSON.parse(JSON.stringify(row.parentKks))
-      }
       this.reset();
       this.kksOptions=[]
       this.getTreeselect();
@@ -569,8 +554,7 @@ export default {
 
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.oldParentKKS = JSON.parse(JSON.stringify(row.parentKks))
-      console.log(this.oldParentKKS, 3333444);
+      // console.log(row, 12345);
       this.reset()
       this.kksOptions=[]
       this.getTreeselect()
@@ -608,8 +592,6 @@ export default {
                 this.open = false;
                 // this.getList();
                 // 重新加载父节点
-                this.refreshRow(this.oldParentKKS)
-                // 加载新的父节点
                 this.refreshRow(this.form.parentKks)
               } else {
                 this.msgError(response.msg);
@@ -622,8 +604,6 @@ export default {
                 this.open = false;
                 // this.getList();
                 // 重新加载父节点
-                this.refreshRow(this.oldParentKKS)
-                // 加载新的父节点
                 this.refreshRow(this.form.parentKks)
               } else {
                 this.msgError(response.msg);
@@ -635,9 +615,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const kksId = row.kksId
+      const kksIds = row.kksId || this.ids;
       this.$confirm(
-        '是否确认删除kks编码编号为"' + kksId + '"的数据项?',
+        '是否确认删除kks编码编号为"' + kksIds + '"的数据项?',
         "警告",
         {
           confirmButtonText: "确定",
@@ -646,7 +626,7 @@ export default {
         }
       )
         .then(function() {
-          return delKks(kksId);
+          return delKks(kksIds);
         })
         .then(() => {
           this.getList();
@@ -658,6 +638,7 @@ export default {
 
     // 更新父节点  解决数据跟新问题
      refreshRow(parentKKS){
+      console.log(parentKKS, "XCXCXC")
       getByParentKks(parentKKS).then(res => {
         if(res.code===200) {
           console.log(res.data, 23456)

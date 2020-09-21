@@ -17,6 +17,7 @@
           <el-tree
             :data="equipOptions"
             :props="defaultProps"
+            node-key="id"
             :expand-on-click-node="false"
             :filter-node-method="filterNode"
             ref="tree"
@@ -327,7 +328,7 @@ export default {
     // 上传预处理
     beforeUpload(file) {
       // if (file.type.indexOf("image/") == -1) {
-        // this.msaError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件");
+      // this.msaError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件");
       // } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -417,11 +418,13 @@ export default {
     },
     // 表上的删除按钮  一般根据id删除
     deleteDiagramNode() {
-      const ids = this.currentParentId
-      delDiagrams(ids).then(() => {
+      const id = this.currentParentId
+      delDiagrams(id).then(() => {
         this.getTreeselect()
         this.msgSuccess("删除成功")
         this.showDelete = false
+        var canvas = document.querySelector('#canvas')
+        canvas.innerHTML=''
       })
       .catch(() => {
         this.msgError("删除失败")
@@ -601,6 +604,9 @@ export default {
           const id = res.data
           this.currentParentId = id; //树id
           this.currentParentName = data; //树名
+          console.log(this.currentParentId,"initialization")
+          this.$refs['tree'].setCurrentKey(this.currentParentId);
+          console.log(this.$refs['tree'].getCurrentKey(), "initialization")
           if(id) {
             this.gettype(id)
           }

@@ -92,7 +92,7 @@
             type="primary"
             icon="el-icon-upload"
             @click="handleAnnex(scope.row.reformId)"
-          >附件</el-button>
+          >上传</el-button>
           <el-button 
             style="position: absolute"
             size="small"
