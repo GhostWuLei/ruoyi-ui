@@ -457,6 +457,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      console.log("删除"+row.spareId);
       const spareIds = row.spareId || this.ids;
       this.$confirm(
         '是否确认删除备品备件编号为"' + spareIds + '"的数据项?',

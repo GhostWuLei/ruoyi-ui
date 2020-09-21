@@ -191,7 +191,8 @@
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :file-list="currentAttachList"
-      :headers="headersObj"      :auto-upload="false">
+      :auto-upload="false">
+<!--      :headers="headersObj"-->
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
@@ -248,10 +249,6 @@ export default {
       constvalList: [],
       // 表单参数
       form: {},
-      headersObj: {
-        Authorization: document.cookie.split("=")[1],
-        "Content-Type": "multipart/form-data"
-      },
       // 表单校验
       rules: {
         constvalName: [
@@ -378,10 +375,10 @@ export default {
       })
     },
     // 上传图片给的请求头
-    headersObj: {
-      Authorization: document.cookie.split("=")[1],
-      "Content-Type": "multipart/form-data"
-    },
+    // headersObj: {
+    //   Authorization: document.cookie.split("=")[1],
+    //   "Content-Type": "multipart/form-data"
+    // },
     // 删除按钮操作
     handleDelete(row){
       // 删除单个 或者 批量删除

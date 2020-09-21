@@ -29,7 +29,7 @@
                   <i class="el-icon-folder" v-if="data.children"></i>
                   <i class="el-icon-document" v-else></i>
                   &nbsp;{{ data.label }}
-              </span>              
+              </span>
             </span>
           </el-tree>
         </div>
@@ -158,7 +158,7 @@ export default {
     // 点击树节点时触发
     handleNodeClick(data){
       // console.log(data.id);
-      
+
       this.currentEquipId = data.id
       this.currentEquipName = data.label
       //获取当前点击的设备信息 如果点击的是设备 则显示设备台账
@@ -187,7 +187,7 @@ export default {
   font-weight: 600;
 }
 .el-icon-document {
-  color: black;  
+  color: black;
 }
 // .mytree /deep/{
 //      .el-tree > .el-tree-node:after {
@@ -195,7 +195,7 @@ export default {
 //     }
 //     .el-tree-node {
 //       position: relative;
-//       padding-left: 16px; 
+//       padding-left: 16px;
 //     }
 //     /* 节点有间隙，隐藏掉展开按钮就好了,如果觉得空隙没事可以删掉 */
 //     .el-tree-node__expand-icon.is-leaf{
@@ -204,19 +204,19 @@ export default {
 //     .el-tree-node__children {
 //       padding-left: 16px;
 //     }
- 
+
 //     .el-tree-node :last-child:before {
 //       height: 38px;
 //     }
- 
+
 //     .el-tree > .el-tree-node:before {
 //       border-left: none;
 //     }
- 
+
 //     .el-tree > .el-tree-node:after {
 //       border-top: none;
 //     }
- 
+
 //     .el-tree-node:before {
 //       content: "";
 //       left: -4px;
@@ -224,7 +224,7 @@ export default {
 //       right: auto;
 //       border-width: 1px;
 //     }
- 
+
 //     .el-tree-node:after {
 //       content: "";
 //       left: -4px;
@@ -232,7 +232,7 @@ export default {
 //       right: auto;
 //       border-width: 1px;
 //     }
- 
+
 //     .el-tree-node:before {
 //       border-left: 1px dashed #4386c6;
 //       bottom: 0px;
@@ -240,7 +240,7 @@ export default {
 //       top: -26px;
 //       width: 1px;
 //     }
- 
+
 //     .el-tree-node:after {
 //       border-top: 1px dashed #4386c6;
 //       height: 20px;
