@@ -133,4 +133,3 @@ export function handleTree(data, id, parentId, children, rootId) {
 	});
 	return treeData != '' ? treeData : data;
 }
-  

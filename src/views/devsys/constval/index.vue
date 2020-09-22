@@ -68,7 +68,7 @@
     </el-row>
 
     <!-- 表格部分 -->
-    <el-table v-loading="loading" :data="constvalList"@selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="constvalList"@selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="定值名称" align="center" prop="constvalName" />
       <el-table-column label="原定值" align="center" prop="oldValue" />

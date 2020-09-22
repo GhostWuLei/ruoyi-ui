@@ -49,7 +49,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="normList" @selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="normList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="规范名称" align="center" prop="normName" />
       <el-table-column label="规范值" align="center" prop="normValue" />

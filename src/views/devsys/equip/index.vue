@@ -154,7 +154,7 @@
           </el-col>
         </el-row>
 
-        <el-table v-loading="loading" :data="equipList" row-key="equipId">
+        <el-table border v-loading="loading" :data="equipList" row-key="equipId">
           <el-table-column
             label="设备名称"
             align="center"

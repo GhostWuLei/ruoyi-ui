@@ -71,7 +71,7 @@
         >删除</el-button>
       </el-col>
     </el-row>
-    <el-table v-loading="loading" :data="reformList" @selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="reformList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="技改名称" align="center" prop="reformName" />
       <el-table-column label="执行单位" align="center" prop="workUnit" />

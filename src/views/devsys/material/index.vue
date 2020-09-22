@@ -54,7 +54,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="materialList" @selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="materialList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="资料名称" align="center" prop="materialName" />
       <el-table-column label="资料类型" align="center" prop="materialType" />

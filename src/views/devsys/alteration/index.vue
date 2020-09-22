@@ -77,7 +77,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="alterationList" @selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="alterationList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="变更名称" align="center" prop="alterationName" />
       <el-table-column label="变更内容" align="center" prop="alterationContent" />

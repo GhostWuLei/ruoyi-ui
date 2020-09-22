@@ -167,8 +167,7 @@
         </template>
       </el-table-column>
       <!-- <el-table-column width="250" label="设备规格" prop="equSpecifications"/> -->
-      <!-- <el-table-column width="90" label="专业" prop="major" :formatter="majorFormat" /> -->
-      <el-table-column label="专业" prop="major"/>
+      <el-table-column width="110" label="专业" prop="major" :formatter="majorFormat" />
       <!-- <el-table-column label="班组" align="center" prop="clazz" /> -->
       <el-table-column label="备注" prop="remark" />
       
@@ -545,11 +544,11 @@ export default {
     },
 
     // 专业字典翻译
-    // majorFormat(row) {
-    //   const num = this.selectDictLabel(this.majorOptions, row.major)
-    //   console.log(num, 33)
-    //   return num;
-    // },
+    majorFormat(row) {
+      const num = this.selectDictLabel(this.majorOptions, row.major)
+      console.log(num, 33)
+      return num;
+    },
 
     /** 新增按钮操作 */
     handleAdd(row) {

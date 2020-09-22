@@ -18,7 +18,7 @@ import './assets/icons' // icon
 import './permission' // permission control
 import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
-import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from "@/utils/ruoyi";
+import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree, ellipsis } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
 
 // 全局方法挂载
@@ -30,6 +30,8 @@ Vue.prototype.addDateRange = addDateRange
 Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
+
+
 
 Vue.prototype.msgSuccess = function (msg) {
   this.$message({ showClose: true, message: msg, type: "success" });
@@ -63,9 +65,19 @@ Vue.use(Element, {
 
 Vue.config.productionTip = false
 
+Vue.filter('ellipsis', function(value, len) {
+    if (!value) return ''
+    if (value.length > len) {
+      return value.slice(0, len) + '...'
+    }
+    return value
+  })
+
+
 new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 })
+

@@ -29,7 +29,10 @@
               <span>
                   <i class="el-icon-folder" v-if="data.children"></i>
                   <i class="el-icon-document" v-else></i>
-                  &nbsp;{{ data.label }}
+                  <el-tooltip class="item" effect="dark" :content="data.label" placement="top-start" v-if="data.label.length>25">
+                    <span > {{ data.label | ellipsis(25) }} </span>
+                  </el-tooltip>
+                  <span v-else>{{data.label}}</span>
               </span>              
             </span>
           </el-tree>
@@ -604,9 +607,7 @@ export default {
           const id = res.data
           this.currentParentId = id; //树id
           this.currentParentName = data; //树名
-          console.log(this.currentParentId,"initialization")
           this.$refs['tree'].setCurrentKey(this.currentParentId);
-          console.log(this.$refs['tree'].getCurrentKey(), "initialization")
           if(id) {
             this.gettype(id)
           }

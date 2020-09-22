@@ -72,7 +72,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="trackList" @selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="trackList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="跟踪事件名称" align="center" prop="trackName" />
       <el-table-column label="跟踪事件内容" align="center" prop="trackContent" />
