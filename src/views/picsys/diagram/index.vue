@@ -33,7 +33,7 @@
                     <span > {{ data.label | ellipsis(25) }} </span>
                   </el-tooltip>
                   <span v-else>{{data.label}}</span>
-              </span>              
+              </span>
             </span>
           </el-tree>
         </div>
@@ -96,7 +96,7 @@
         </el-row>
       </el-col>
     </el-row>
-<!-- 
+<!--
     <el-dialog style="opacity:0" append-to-body class="elclass" :show-close="false" :visible.sync="open" fullscreen>
      <iframe id="iframe1" src="about:blank" frameBorder="0" marginHeight="0" marginWidth="0" style="position:absolute; visibility:inherit; top:0px;left:0px;width:100%; height:100%;z-index:-1; filter:alpha(opacity=0);"></iframe>
     </el-dialog> -->
@@ -190,27 +190,27 @@
         <el-button @click="cancelDelete">取消</el-button>
       </div>
        <!-- 加了之后层级最高,不会被图纸覆盖 -->
-      <iframe id="iframe1" src="about:blank" frameBorder="0" marginHeight="0" marginWidth="0" style="position:absolute; visibility:inherit; top:0px;left:0px;width:100%; height:100%;z-index:-1; filter:alpha(opacity=0);"></iframe>
+      <iframe id="iframe1" src="about:blank" frameBorder="0" marginHeight="0" marginWidth="0" style="position:absolute; visibility:inherit; top:0px;left:0px;width:100%; height:100%;z-index:-1; filter:alpha(opacity=0);"></iframe>
     </el-dialog>
   </div>
 </template>
 
-   <script type="text/javascript" language="javascript">   
-  function ListSections() { 
-	  var ECompViewer = ADViewer.ECompositeViewer;   
-	  var Sections = ECompViewer.Sections;    
-	  var secList = document.getElementById("SectionList");  
-	  for (iSection = 1;(iSection <= Sections.Count); iSection++) 
-	  {  var Section = Sections(iSection); 
-	  	   secList.innerHTML += Section.Title + "<BR>";   
-	  } 
-	} 
+   <script type="text/javascript" language="javascript">
+  function ListSections() {
+	  var ECompViewer = ADViewer.ECompositeViewer;
+	  var Sections = ECompViewer.Sections;
+	  var secList = document.getElementById("SectionList");
+	  for (iSection = 1;(iSection <= Sections.Count); iSection++)
+	  {  var Section = Sections(iSection);
+	  	   secList.innerHTML += Section.Title + "<BR>";
+	  }
+	}
 	</script>
-	<script type="text/javascript" for="ADViewer" event="OnEndLoadItem(bstrItemType,vData, vResult)">  
-	if (bstrItemType == 'DOCUMENT') 
-	{ 
+	<script type="text/javascript" for="ADViewer" event="OnEndLoadItem(bstrItemType,vData, vResult)">
+	if (bstrItemType == 'DOCUMENT')
+	{
 		ListSections();
-  } 
+  }
   </script>
 
 <script>
@@ -366,7 +366,7 @@ export default {
       }
       getinfo(diagramId).then(response => {
         console.log(response,this.form,9898);
-        
+
         this.form = response.data
         this.title = "修改目录/系统图"
         this.open = true
@@ -448,7 +448,7 @@ export default {
             uploadPic(this.file)
             .then(res => {
               console.log(res,333);
-              
+
               this.form.fname = res.fname
               this.form.fpath = res.fpath
 
@@ -666,7 +666,7 @@ export default {
   font-weight: 600;
 }
 .el-icon-document {
-  color: black;  
+  color: black;
 }
 // .mytree /deep/ {
 //     // overflow: auto;
