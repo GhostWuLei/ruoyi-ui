@@ -6,9 +6,9 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
-
-
+        <el-tooltip content="插件下载" effect="dark" placement="bottom">
+          <div style="position: absolute;margin-left: -32px;line-height: 4;"><a href="http://172.17.161.212:24/view.exe"><i class="el-icon-download" style="font-size: 28px;"></i></a></div>
+        </el-tooltip>
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
         <el-tooltip content="布局大小" effect="dark" placement="bottom">

@@ -103,7 +103,7 @@
       <el-table-column label="备件名称" align="center" prop="spareName" />
       <el-table-column label="备件编号" align="center" prop="spareCode" />
       <el-table-column label="备件类型" align="center" prop="spareType" />
-      <el-table-column label="库存数量" align="center" prop="stockNum" />
+      <el-table-column label="库存数量" align="center" prop="stockNum"  />
       <el-table-column label="库存地址" align="center" prop="stockPlace" />
       <el-table-column label="已换数量" align="center" prop="consumeNum" />
       <el-table-column
@@ -116,9 +116,6 @@
           <span>{{ parseTime(scope.row.consumeTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="附件名称" align="center" prop="fname">
-      </el-table-column>
-      <el-table-column label="附件路径" align="center" prop="fpath" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column prop="attach" label="附件管理" width="180">
         <template slot-scope="scope">

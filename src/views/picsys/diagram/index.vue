@@ -383,7 +383,7 @@ export default {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;
-          const fileName = `12345.dwf`;
+          const fileName = `15963245894.dwf`;
           if ("download" in document.createElement("a")) {
               // 非IE下载
               const elink = document.createElement("a");
@@ -469,7 +469,7 @@ export default {
           // 新增
           if (this.form.nodeType == 0) {
             this.type = this.form.nodeType
-            console.log(!this.file, !this.form.fname);
+            console.log(!this.file, !this.form.fname,56565665);
             if(!this.file) return this.msgError('请上传文件')
             uploadPic(this.file)
             .then(res => {
@@ -489,6 +489,7 @@ export default {
     },
     // 表单提交接口 新增
     addFormes() {
+      console.log(this.form,232323)
       addDiagrams(this.form).then(response => {
 
         if (response.code === 200) {
@@ -545,8 +546,11 @@ export default {
     gettype(id){
       // console.log(id,78910);
       getinfo(id).then(res=>{
-        // console.log(res,666444);
-        this.imgurles = `/dev-api${res.data.fpath}`
+        // console.log(res,666444); // /profile/picture/c6b0e7f97e9be32da8cb375e65c1ea41.dwf
+        this.imgurles = `${res.data.fpath}`
+        this.imgurles = this.imgurles.substring(8);
+        this.imgurles = 'D:/ruoyi/uploadPath'+this.imgurles
+        // this.imgurles = 'http://172.17.161.212:24/uploadPath'+this.imgurles
         window.sessionStorage.setItem('imgurles', this.imgurles)
         console.log(this.imgurles,66655);
         // 获取图片
