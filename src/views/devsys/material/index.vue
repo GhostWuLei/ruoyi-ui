@@ -343,7 +343,7 @@ export default {
     //下载
     downloadBtnClick(row) {
       download(row.materialId).then(res => {
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;

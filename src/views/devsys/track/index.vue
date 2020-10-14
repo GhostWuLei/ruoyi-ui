@@ -192,7 +192,7 @@
         class="upload-demo"
         ref="upload"
         action="#"
-        :http-request="handleUploadForm"
+        :http-request="handleUpload"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :file-list="currentAttachList"
@@ -305,7 +305,7 @@ export default {
       console.log(file);
     },
     //上传
-    handleUploadForm(param){
+    handleUpload(param){
       let formData = new FormData();
       formData.append("trackId", this.trackId)
       formData.append("files", param.file)
@@ -314,11 +314,11 @@ export default {
           type: 'success',
           message: '上传成功!'
         });
+        this.getList()
       })
       this.$refs.upload.clearFiles()
       this.dialogVisible = false;
-      this.handleRemove(param)
-
+      //this.handleRemove(param)
     },
     // 表单重置
     reset() {
@@ -452,11 +452,12 @@ export default {
     },
     downloadBtnClick(row){
       download(row.trackId).then(res => {
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;
           const fileName = row.fname;
+          console.log(fileName, 3456)
           if ("download" in document.createElement("a")) {
             // 非IE下载
             const elink = document.createElement("a");

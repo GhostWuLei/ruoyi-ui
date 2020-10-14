@@ -68,7 +68,7 @@
     </el-row>
 
     <!-- 表格部分 -->
-    <el-table border v-loading="loading" :data="constvalList"@selection-change="handleSelectionChange">
+    <el-table border v-loading="loading" :data="constvalList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="定值名称" align="center" prop="constvalName" />
       <el-table-column label="原定值" align="center" prop="oldValue" />
@@ -438,7 +438,7 @@ export default {
     },
     downloadBtnClick(row){
       download(row.constvalId).then(res => {
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;

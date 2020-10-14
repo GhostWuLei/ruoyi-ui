@@ -521,7 +521,7 @@ export default {
       console.log(row,11112233)
       download(row.alterationId).then(res => {
         console.log(res,111112266)
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;

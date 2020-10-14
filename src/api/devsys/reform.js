@@ -65,7 +65,7 @@ export function uploadAnnx(formData) {
 export const download = (reformId) => {
   return axios({
     baseURL: process.env.VUE_APP_BASE_API,
-    url: '/devsys/material/download/'+reformId,
+    url: '/devsys/reform/download/'+reformId,
     headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
     responseType: 'blob',  //responseType: 'arraybuffer'，
     method: 'post'
