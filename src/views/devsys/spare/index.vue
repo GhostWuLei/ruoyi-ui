@@ -171,7 +171,7 @@
     />
 
     <!-- 上传附件对话框 -->
-    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="20%">
       <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
       <!-- <el-upload
         class="upload-demo"
@@ -360,6 +360,7 @@ export default {
     getList() {
       this.loading = true;
       listSpare(this.queryParams).then(response => {
+        console.log(response,47474)
         this.spareList = response.rows;
         // 添加附件的数组
         this.spareList.forEach((val, index) => {
@@ -516,10 +517,11 @@ export default {
           type: 'success',
           message: '上传成功!'
         });
+        this.getList();
       })
       this.$refs.upload.clearFiles()
       this.dialogVisible = false;
-      this.getList();
+      // this.handleRemove(param)
     },
 
     uploadSuccess(response, file, fileList) {
