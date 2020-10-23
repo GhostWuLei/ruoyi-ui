@@ -171,25 +171,7 @@
     />
 
     <!-- 上传附件对话框 -->
-    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
-      <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
-      <!-- <el-upload
-        class="upload-demo"
-        drag
-        action="111111"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
-        :file-list="currentAttachList"
-        :on-success="uploadSuccess"
-        :before-upload="beforeUpload"
-      >
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">
-          只能上传jpg/png文件，且不超过500kb
-        </div>
-      </el-upload> -->
-
+    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="50%">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -275,6 +257,7 @@ export default {
   name: "Spare",
   data() {
     return {
+      dialogImageUrl: "",
       // 遮罩层
       loading: true,
       // 选中数组
@@ -503,6 +486,14 @@ export default {
       this.dialogVisible = true;
       // 设置currentIndex
       // this.currentIndex = index;
+      this.currentAttachList= [
+        {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food3.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food4.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food5.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food6.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food7.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        {name: 'food8.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
     },
     submitUpload() {
       this.$refs.upload.submit();
