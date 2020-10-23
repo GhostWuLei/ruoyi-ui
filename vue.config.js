@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '系统图编码管理系统' // 标题
+const name = defaultSettings.title || '设备基础信息一体化平台' // 标题
 
 const port = process.env.port || process.env.npm_config_port || 89 // 端口
 

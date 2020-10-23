@@ -1,8 +1,8 @@
 {
   "name": "ruoyi",
   "version": "2.2.0",
-  "description": "系统图编码管理系统",
-  "author": "系统图编码管理系统",
+  "description": "设备基础信息一体化平台",
+  "author": "设备基础信息一体化平台",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",

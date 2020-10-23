@@ -140,7 +140,8 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+
+    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="20%">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -247,10 +248,11 @@ export default {
           type: 'success',
           message: '上传成功!'
         });
+        this.getList()
       })
       this.$refs.upload.clearFiles()
       this.dialogVisible = false;
-      this.handleRemove(param)
+      // this.handleRemove(param)
     },
     handleRemove(file, fileList) {
       if (this.isRepeat == false) {
@@ -341,7 +343,7 @@ export default {
     //下载
     downloadBtnClick(row) {
       download(row.materialId).then(res => {
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;

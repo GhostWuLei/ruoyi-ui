@@ -198,7 +198,7 @@
     </el-dialog>
 
     <!-- 上传附件对话框 -->
-    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="20%">
+    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="20%">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -464,10 +464,11 @@ export default {
           type: 'success',
           message: '上传成功!'
         });
+        this.getList()
       })
       this.$refs.upload.clearFiles()
-      this.dialogVisible = false;
-      this.handleRemove(param)
+      this.dialogVisible = false
+      // this.handleRemove(param)
     },
 
     uploadSuccess(response, file, fileList) {
@@ -520,7 +521,7 @@ export default {
       console.log(row,11112233)
       download(row.alterationId).then(res => {
         console.log(res,111112266)
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;
