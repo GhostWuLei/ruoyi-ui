@@ -190,6 +190,7 @@
           只能上传jpg/png文件，且不超过500kb
         </div>
       </el-upload> -->
+    </el-dialog>
 
       <el-upload
         class="upload-demo"
