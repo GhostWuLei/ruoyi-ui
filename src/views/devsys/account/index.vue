@@ -37,16 +37,28 @@
 
       <el-col :span="19" :xs="24" v-if="isEquip">
         <el-tabs type="card">
-          <el-tab-pane label="备品备件">
-            <spare-vue :currentEquipId="this.currentEquipId"></spare-vue>
-          </el-tab-pane>
-          <el-tab-pane label="技术资料">
-            <material-vue :currentEquipId="this.currentEquipId"></material-vue>
+          <el-tab-pane label="设备信息">
+            <information-vue :currentEquipId="this.currentEquipId"></information-vue>
           </el-tab-pane>
           <el-tab-pane label="检修记录">
             <repair-vue :currentEquipId="this.currentEquipId"></repair-vue>
           </el-tab-pane>
-          <el-tab-pane label="设备定值">
+          <el-tab-pane label="故障记录">
+            <fault-vue :currentEquipId="this.currentEquipId"></fault-vue>
+          </el-tab-pane>
+          <el-tab-pane label="异动变更">
+            <alteration-vue :currentEquipId="this.currentEquipId"></alteration-vue>
+          </el-tab-pane>
+          <el-tab-pane label="附属设备明细">
+            <subsidiary-vue :currentEquipId="this.currentEquipId"></subsidiary-vue>
+          </el-tab-pane>
+          <el-tab-pane label="备品备件">
+            <spare-vue :currentEquipId="this.currentEquipId"></spare-vue>
+          </el-tab-pane>
+          <!-- <el-tab-pane label="技术资料">
+            <material-vue :currentEquipId="this.currentEquipId"></material-vue>
+          </el-tab-pane> -->
+          <!-- <el-tab-pane label="设备定值">
             <constval-vue :currentEquipId="this.currentEquipId"></constval-vue>
           </el-tab-pane>
           <el-tab-pane label="设备规范">
@@ -60,35 +72,8 @@
           </el-tab-pane>
           <el-tab-pane label="重大技改">
             <reform-vue :currentEquipId="this.currentEquipId"></reform-vue>
-          </el-tab-pane>
+          </el-tab-pane> -->
         </el-tabs>
-
-        <!-- <div>
-          <router-link :to="'/account/spare/index/' + this.currentEquipId">
-            <el-button type="primary">备品备件<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/material/index/' + this.currentEquipId">
-            <el-button type="primary">技术资料<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/repair/index/' + this.currentEquipId">
-            <el-button type="primary">检修记录<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/constval/index/' + this.currentEquipId">
-            <el-button type="primary">设备定值<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/norm/index/' + this.currentEquipId">
-            <el-button type="primary">设备规范<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/track/index/' + this.currentEquipId">
-            <el-button type="primary">设备跟踪<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/alteration/index/' + this.currentEquipId">
-            <el-button type="primary">异动变更<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-          <router-link :to="'/account/reform/index/' + this.currentEquipId">
-            <el-button type="primary">重大技改<i class="el-icon-discount el-icon--right"></i></el-button>
-          </router-link>
-        </div> -->
       </el-col>
 
     </el-row>
@@ -99,13 +84,13 @@ import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import { treeselect, getEquip } from "@/api/devsys/equip";
 import spareVue from '@/views/devsys/spare/index.vue'
-import materialVue from '@/views/devsys/material/index.vue'
+import informationVue from '@/views/devsys/information/index.vue'
 import repairVue from '@/views/devsys/repair/index.vue'
-import constvalVue from '@/views/devsys/constval/index.vue'
-import normVue from '@/views/devsys/norm/index.vue'
-import trackVue from '@/views/devsys/track/index.vue'
+import subsidiaryVue from '@/views/devsys/subsidiary/index.vue'
+import faultVue from '@/views/devsys/fault/index.vue'
 import alterationVue from '@/views/devsys/alteration/index.vue'
-import reformVue from '@/views/devsys/reform/index.vue'
+// import reformVue from '@/views/devsys/reform/index.vue'
+// import trackVue from '@/views/devsys/track/index.vue'
 export default {
   data() {
     return {
@@ -126,13 +111,16 @@ export default {
   },
   components: {
     spareVue,
-    materialVue,
-    repairVue,
-    constvalVue,
-    normVue,
-    trackVue,
     alterationVue,
-    reformVue,
+    repairVue,
+    subsidiaryVue,
+    faultVue,
+    informationVue
+    // materialVue,
+    // constvalVue,
+    // normVue,
+    // trackVue,
+    // reformVue,
   },
   watch: {
     //根据设备名称 筛选设备

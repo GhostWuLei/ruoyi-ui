@@ -1,11 +1,15 @@
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      label-width="68px"
-    >
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+      <el-form-item label="设备ID" prop="equipId">
+        <el-input
+          v-model="queryParams.equipId"
+          placeholder="请输入设备ID"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="备件名称" prop="spareName">
         <el-input
           v-model="queryParams.spareName"
@@ -15,36 +19,18 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="备件编号" prop="spareCode">
+      <el-form-item label="厂家" prop="productor">
         <el-input
-          v-model="queryParams.spareCode"
-          placeholder="请输入备件编号"
+          v-model="queryParams.productor"
+          placeholder="请输入厂家"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="备件类型" prop="spareType">
-        <el-select
-          v-model="queryParams.spareType"
-          placeholder="请选择备件类型"
-          clearable
-          size="small"
-        >
-          <el-option label="请选择字典生成" value="" />
-        </el-select>
-      </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -56,8 +42,7 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['devsys:spare:add']"
-          >新增</el-button
-        >
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -67,8 +52,7 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['devsys:spare:edit']"
-          >修改</el-button
-        >
+        >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -78,8 +62,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['devsys:spare:remove']"
-          >删除</el-button
-        >
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -88,59 +71,21 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['devsys:spare:export']"
-          >导出</el-button
-        >
+        >导出</el-button>
       </el-col>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="spareList"
-      @selection-change="handleSelectionChange"
-      border
-    >
+    <el-table v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="备件ID" align="center" prop="spareId" />
       <el-table-column label="备件名称" align="center" prop="spareName" />
-      <el-table-column label="备件编号" align="center" prop="spareCode" />
-      <el-table-column label="备件类型" align="center" prop="spareType" />
-      <el-table-column label="库存数量" align="center" prop="stockNum"  />
-      <el-table-column label="库存地址" align="center" prop="stockPlace" />
-      <el-table-column label="已换数量" align="center" prop="consumeNum" />
-      <el-table-column
-        label="更换时间"
-        align="center"
-        prop="consumeTime"
-        width="180"
-      >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.consumeTime) }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="规格型号" align="center" prop="specification" />
+      <el-table-column label="技术参数" align="center" prop="techParam" />
+      <el-table-column label="数量" align="center" prop="num" />
+      <el-table-column label="图号" align="center" prop="pictureNum" />
+      <el-table-column label="厂家" align="center" prop="productor" />
       <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" width="180">
-        <template slot-scope="scope">
-          <!-- 上传按钮绑定click事件 -->
-          <el-button
-            style="float: left"
-            size="mini"
-            type="primary"
-            @click="uploadBtnClick(scope.row.spareId)">
-            <i  class="el-icon-upload el-icon--right">上传</i>
-          </el-button>
-          <el-button style="float: right"
-            size="small"
-            type="success"
-            @click="downloadBtnClick(scope.row)">
-            <i  class="el-icon-upload el-icon--right">下载</i>
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        width="120"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -148,153 +93,49 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['devsys:spare:edit']"
-            >修改</el-button
-          >
+          >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['devsys:spare:remove']"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
-      v-show="total > 0"
+      v-show="total>0"
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
 
-    <!-- 上传附件对话框 -->
-    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
-      <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
-      <!-- <el-upload
-        class="upload-demo"
-        drag
-        action="111111"
-        :on-remove="handleRemove"
-        :before-remove="beforeRemove"
-        :file-list="currentAttachList"
-        :on-success="uploadSuccess"
-        :before-upload="beforeUpload"
-      >
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">
-          只能上传jpg/png文件，且不超过500kb
-        </div>
-      </el-upload> -->
-
-      <el-upload
-        class="upload-demo"
-        ref="upload"
-        :action="upUrl"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :file-list="currentAttachList"
-        :headers="headersObj"
-        :http-request="handleUploadForm" 
-        :show-file-list='false'
-      >
-        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload>
-
-      <el-table
-        :data="currentAttachList"
-      >
-        <el-table-column 
-          label="名称" 
-          prop="name"
-        >
-        </el-table-column>
-        <el-table-column 
-          label="预览" 
-          prop="date"
-        >
-          <template slot-scope="scoped">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-search"
-              @click="newWatch(scoped.row)"
-            >预览</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column 
-          label="操作"
-          prop="date"
-        >
-          <template slot-scope="scoped">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="newDelete(scoped.row)"
-            >删除</el-button>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-bottom"
-              @click="newUpdate(scoped.row)"
-            >下载</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-
-      <el-dialog
-        title="显示"
-        :visible.sync="isShowImg"
-        width="30%"
-        :before-close="handleClose">
-        <img :src="picItem" alt="" width="200" height="100" >
-      </el-dialog>
-
     <!-- 添加或修改备品备件对话框 -->
-    <el-dialog append-to-body :title="title" :visible.sync="open" width="500px">
+    <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="设备ID" prop="equipId">
+          <el-input v-model="form.equipId" placeholder="请输入设备ID" />
+        </el-form-item>
         <el-form-item label="备件名称" prop="spareName">
           <el-input v-model="form.spareName" placeholder="请输入备件名称" />
         </el-form-item>
-        <el-form-item label="备件编号" prop="spareCode">
-          <el-input v-model="form.spareCode" placeholder="请输入备件编号" />
+        <el-form-item label="规格型号" prop="specification">
+          <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="备件类型">
-          <el-select v-model="form.spareType" placeholder="请选择备件类型">
-            <el-option label="请选择字典生成" value="" />
-          </el-select>
+        <el-form-item label="技术参数" prop="techParam">
+          <el-input v-model="form.techParam" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="库存数量" prop="stockNum">
-          <el-input v-model="form.stockNum" placeholder="请输入库存数量" />
+        <el-form-item label="数量" prop="num">
+          <el-input v-model="form.num" placeholder="请输入数量" />
         </el-form-item>
-        <el-form-item label="库存地址" prop="stockPlace">
-          <el-input v-model="form.stockPlace" placeholder="请输入库存地址" />
+        <el-form-item label="图号" prop="pictureNum">
+          <el-input v-model="form.pictureNum" placeholder="请输入图号" />
         </el-form-item>
-        <el-form-item label="已换数量" prop="consumeNum">
-          <el-input v-model="form.consumeNum" placeholder="请输入已换数量" />
-        </el-form-item>
-        <el-form-item label="更换时间" prop="consumeTime">
-          <el-date-picker
-            clearable
-            size="small"
-            style="width: 200px"
-            v-model="form.consumeTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择更换时间"
-          >
-          </el-date-picker>
+        <el-form-item label="厂家" prop="productor">
+          <el-input v-model="form.productor" placeholder="请输入厂家" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -306,33 +147,12 @@
 </template>
 
 <script>
-import {
-  listSpare,
-  getSpare,
-  delSpare,
-  addSpare,
-  updateSpare,
-  exportSpare,
-  uploadAnnx,
-  download,
-  showUploadFile,
-  removeUpdated,
-  newUpdateFile
-} from "@/api/devsys/spare";
+import { listSpare, getSpare, delSpare, addSpare, updateSpare, exportSpare } from "@/api/devsys/spare";
 
 export default {
-  props: {
-    currentEquipId: {
-      type: Number,
-      default: ""
-    }
-  },
   name: "Spare",
   data() {
     return {
-      picItem: '',
-      isShowImg: false,
-      upUrl: '#',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -349,82 +169,36 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules: {
-        spareName: [
-          { required: true, message: "备件名称不能为空", trigger: "blur" }
-        ],
-        equipId: [
-          { required: true, message: "设备ID不能为空", trigger: "blur" }
-        ],
-        spareType: [
-          { required: true, message: "备件类型不能为空", trigger: "blur" }
-        ]
-      },
-      //======================================================
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        spareName: undefined,
         equipId: undefined,
-        spareCode: undefined,
-        spareType: undefined
+        spareName: undefined,
+        productor: undefined,
       },
-      // currentEquipId: undefined,
-      //===================文件上传============================
-      dialogVisible: false,
-      // 设置当前文件列表数据currentAttachList，每次用户点击上传按钮，该数据就会被赋值为当前按钮那一列spareList中的attachList数据
-      currentAttachList: [],
-      //当前点击打开弹框的按钮在表格中是那一列
-      currentIndex: 0,
-      //是否包含重复的文件名称,默认不包含值为false
-      isRepeat: false,
-      // 上传图片给的请求头
-      headersObj: {
-        Authorization: document.cookie.split("=")[1],
-      //  "Content-Type": "multipart/form-data"
-      },
-      clickedId: ''
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+        equipId: [
+          { required: true, message: "设备ID不能为空", trigger: "blur" }
+        ],
+        spareName: [
+          { required: true, message: "备件名称不能为空", trigger: "blur" }
+        ],
+      }
     };
   },
   created() {
-    // 给设备id设置值 根据设备id查询设备的备件
-    // this.currentEquipId = this.$route.params.equipId
-    this.queryParams.equipId = this.currentEquipId;
     this.getList();
   },
-  watch: {
-    currentEquipId(newval, oldval) {
-      console.log(newval, oldval, 123);
-      this.queryParams.equipId = this.currentEquipId;
-      this.getList();
-    }
-  },
-  mounted() {
-    // console.log(this.currentEquipId, 333);
-  },
   methods: {
-    // handleClose(done) {
-    //     this.$confirm('确认关闭？')
-    //       .then(_ => {
-    //         done();
-    //       })
-    //       .catch(_ => {});
-    //   },
     /** 查询备品备件列表 */
     getList() {
       this.loading = true;
       listSpare(this.queryParams).then(response => {
-        // console.log(response,47474)
         this.spareList = response.rows;
-        // 添加附件的数组
-        this.spareList.forEach((val, index) => {
-          val.attachList = [];
-        });
-        //console.log(this.spareList)
         this.total = response.total;
         this.loading = false;
       });
@@ -438,15 +212,18 @@ export default {
     reset() {
       this.form = {
         spareId: undefined,
-        spareName: undefined,
         equipId: undefined,
-        spareCode: undefined,
-        spareType: "0",
-        stockNum: "",
-        stockPlace: undefined,
-        consumeNum: undefined,
-        consumeTime: undefined,
-        remark: undefined
+        spareName: undefined,
+        specification: undefined,
+        techParam: undefined,
+        num: undefined,
+        pictureNum: undefined,
+        productor: undefined,
+        remark: undefined,
+        createBy: undefined,
+        createTime: undefined,
+        updateBy: undefined,
+        updateTime: undefined
       };
       this.resetForm("form");
     },
@@ -462,22 +239,20 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.spareId);
-      this.single = selection.length != 1;
-      this.multiple = !selection.length;
+      this.ids = selection.map(item => item.spareId)
+      this.single = selection.length!=1
+      this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
       this.open = true;
-      this.form.equipId = this.currentEquipId;
       this.title = "添加备品备件";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      this.form.equipId = this.currentEquipId;
-      const spareId = row.spareId || this.ids;
+      const spareId = row.spareId || this.ids
       getSpare(spareId).then(response => {
         this.form = response.data;
         this.open = true;
@@ -514,216 +289,30 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      console.log("删除"+row.spareId);
       const spareIds = row.spareId || this.ids;
-      this.$confirm(
-        '是否确认删除备品备件编号为"' + spareIds + '"的数据项?',
-        "警告",
-        {
+      this.$confirm('是否确认删除备品备件编号为"' + spareIds + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        }
-      )
-        .then(function() {
+        }).then(function() {
           return delSpare(spareIds);
-        })
-        .then(() => {
+        }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
-        .catch(function() {
-          this.msgError("删除异常");
-        });
+        }).catch(function() {});
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有备品备件数据项?", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(function() {
+      this.$confirm('是否确认导出所有备品备件数据项?', "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(function() {
           return exportSpare(queryParams);
-        })
-        .then(response => {
+        }).then(response => {
           this.download(response.msg);
-        })
-        .catch(function() {});
-    },
-    //#########################文件上传################################
-    async uploadBtnClick(id) {
-      console.log(id, 111)
-      this.clickedId = id
-      await this.updataFile(id)
-
-    // window.location.host
-      this.upUrl = process.env.VUE_APP_BASE_API +`/devsys/spare/uploadFile`
-
-      this.dialogVisible = true;
-    },
-    // 根据id 跟新数组 数据
-    async updataFile(id) {
-      this.currentAttachList = []
-      const { data } = await showUploadFile(id)
-      console.log(data, 112);
-      data.forEach(item => {
-        const obj = {}
-        obj.name = item.fname
-        obj.url = item.fpath
-        obj.fileId = item.fileId
-        this.currentAttachList.push(obj)
-      })
-      
-      console.log(this.currentAttachList, 222);
-    },
-    // 自己定义上传方法  把默认的上传覆盖了  而且还改了上传参数  必须接受 spareId  files(不是上传的默认file~)
-    handleUploadForm(param){
-      console.log(param, 221);
-      let formData = new FormData();
-      formData.append("spareId", this.clickedId)
-      formData.append("files", param.file)
-      uploadAnnx(formData).then(res => {
-          this.$message({
-            type: 'success',
-            message: '上传成功!'
-          });
-        this.getList()
-        this.updataFile(this.clickedId)
-      }).catch( err => {
-        this.$message({
-          type: 'error',
-          message: '上传类型错误!'
-        });
-
-        this.getList()
-        this.updataFile(this.clickedId)
-      })
-    },
-
-    uploadSuccess(response, file, fileList) {
-      var currentIndex = this.currentIndex;
-      this.spareList[currentIndex].attachList.push({
-        name: file.name
-      });
-    },
-    handlePreview(file) {
-      console.log(file, 1212);
-      // this.picItem = file.name
-      // this.isShowImg = true
-    },
-
-    handleClose() {
-       // this.isShowImg = false
-    },
-
-    beforeRemove(file, fileList) {
-      console.log(file, fileList, 789);
-      if (this.isRepeat == false) {
-        return this.$confirm(
-          "此操作将永久删除" + file.name + "文件, 是否继续?"
-        );
-      }
-    },
-    handleRemove(file, fileList) {
-      console.log(666, file, fileList);
-      if (this.isRepeat == false) {
-        var currentIndex = this.currentIndex;
-        var attachList = this.spareList[currentIndex].attachList;
-        var tempList = [];
-        for (var i = 0; i < attachList.length; i++) {
-          if (file.name != attachList[i].name) {
-            tempList.push(attachList[i]);
-          }
-        }
-        this.spareList[currentIndex].attachList = tempList;
-      } else {
-        this.isRepeat = false;
-      }
-
-      removeUpdated(file.fileId).then(res => {
-        console.log(res, 44);
-        if(res.code === 200) {
-          this.$message({
-            type: 'success',
-            message: res.msg
-          });
-        } else {
-          this.$message({
-            type: 'error',
-            message: '删除失败'
-          });
-        }
-        this.updataFile(this.clickedId)
-      })
-    },
-    beforeUpload(file) {
-      var currentIndex = this.currentIndex;
-      //首先需要获取当前已经上传的文件列表
-      var list = this.spareList[currentIndex].attachList;
-      //循环文件列表判断是否有重复的文件
-      for (var i = 0; i < list.length; i++) {
-        if (list[i].name == file.name) {
-          this.$message.error(file.name + "文件名重复");
-          //添加逻辑：得知上传了重复文件后，设置一个标志值为true，提供给beforeRemove函数使用
-          this.isRepeat = true;
-          //记得一定要返回false,否则控件继续会执行上传操作
-          return false;
-        }
-      }
-    },
-    downloadBtnClick(row){
-      console.log(row,11112233)
-      download(row.spareId).then(res => {
-        console.log(res,111112266)
-        if (res.data.size>0) {
-          const content = res.data;
-          const blob = new Blob([content]);
-          // const fileName = `${rowName}.zip`;
-          const fileName = row.fname;
-          if ("download" in document.createElement("a")) {
-              // 非IE下载
-              const elink = document.createElement("a");
-              elink.download = fileName;
-              elink.style.display = "none";
-              elink.href = URL.createObjectURL(blob);
-              document.body.appendChild(elink);
-              elink.click();
-              URL.revokeObjectURL(elink.href); // 释放URL 对象
-              document.body.removeChild(elink);
-          } else {
-              // IE10+下载
-              navigator.msSaveBlob(blob, fileName);
-          }
-        }
-      })
-    },
-
-    newWatch(data) {
-      console.log(data);
-      window.open(process.env.VUE_APP_BASE_API + data.url)
-    },
-    newDelete(data) {
-       this.$confirm('是否确认删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.handleRemove(data)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-    },
-    async newUpdate(data) {
-      data.spareId = data.fileId
-      data.fname = data.name
-      console.log(data, 36);
-      const res = await this.downloadBtnClick(data)
-      console.log(res,112);
+        }).catch(function() {});
     }
   }
 };

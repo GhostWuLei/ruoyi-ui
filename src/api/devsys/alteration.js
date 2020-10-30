@@ -1,8 +1,6 @@
 import request from '@/utils/request'
-import axios from 'axios'
-import { getToken } from '@/utils/auth'
 
-// 查询异动变更列表
+// 查询设备变更列表
 export function listAlteration(query) {
   return request({
     url: '/devsys/alteration/list',
@@ -11,7 +9,7 @@ export function listAlteration(query) {
   })
 }
 
-// 查询异动变更详细
+// 查询设备变更详细
 export function getAlteration(alterationId) {
   return request({
     url: '/devsys/alteration/' + alterationId,
@@ -19,7 +17,7 @@ export function getAlteration(alterationId) {
   })
 }
 
-// 新增异动变更
+// 新增设备变更
 export function addAlteration(data) {
   return request({
     url: '/devsys/alteration',
@@ -28,7 +26,7 @@ export function addAlteration(data) {
   })
 }
 
-// 修改异动变更
+// 修改设备变更
 export function updateAlteration(data) {
   return request({
     url: '/devsys/alteration',
@@ -37,7 +35,7 @@ export function updateAlteration(data) {
   })
 }
 
-// 删除异动变更
+// 删除设备变更
 export function delAlteration(alterationId) {
   return request({
     url: '/devsys/alteration/' + alterationId,
@@ -45,41 +43,11 @@ export function delAlteration(alterationId) {
   })
 }
 
-// 导出异动变更
+// 导出设备变更
 export function exportAlteration(query) {
   return request({
     url: '/devsys/alteration/export',
     method: 'get',
     params: query
-  })
-}
-
-//上传文件
-export function uploadAnnx(formData) {
-  return request({
-    url: '/devsys/alteration/uploadFile',
-    headers: {'Content-Type': 'multipart/form-data'},
-    method: 'post',
-    data: formData
-  })
-}
-
-/**
- * 封装axios请求
- * @param url 请求地址
- * @param data 请求参数
- * @package fileName 下载的文件名称
- * @param errorMsg 错误提示
- * @param callback 成功调用回调处理
- */
-
- // config.headers['Authorization'] = 'Bearer ' + getToken()
- export const download = (alterationId) => {
-  return axios({
-    baseURL: process.env.VUE_APP_BASE_API,
-    url: '/devsys/alteration/download/'+alterationId,
-    headers: {'Content-Type': 'application/json;charset=UTF-8', Authorization: 'Bearer ' + getToken()},
-    responseType: 'blob',  //responseType: 'arraybuffer'，
-    method: 'post'
   })
 }
