@@ -171,7 +171,7 @@
     />
 
     <!-- 上传附件对话框 -->
-    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
+    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="20%">
       <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
       <!-- <el-upload
         class="upload-demo"
@@ -193,73 +193,21 @@
       <el-upload
         class="upload-demo"
         ref="upload"
-        :action="upUrl"
+        action="#"
+        :http-request="handleUploadForm"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :file-list="currentAttachList"
         :headers="headersObj"
-        :http-request="handleUploadForm" 
-        :show-file-list='false'
-      >
+        :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
-
-      <el-table
-        :data="currentAttachList"
-      >
-        <el-table-column 
-          label="名称" 
-          prop="name"
-        >
-        </el-table-column>
-        <el-table-column 
-          label="预览" 
-          prop="date"
-        >
-          <template slot-scope="scoped">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-search"
-              @click="newWatch(scoped.row)"
-            >预览</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column 
-          label="操作"
-          prop="date"
-        >
-          <template slot-scope="scoped">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="newDelete(scoped.row)"
-            >删除</el-button>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-bottom"
-              @click="newUpdate(scoped.row)"
-            >下载</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
       <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submitUpload">确 定</el-button>
       </span>
     </el-dialog>
-
-      <el-dialog
-        title="显示"
-        :visible.sync="isShowImg"
-        width="30%"
-        :before-close="handleClose">
-        <img :src="picItem" alt="" width="200" height="100" >
-      </el-dialog>
 
     <!-- 添加或修改备品备件对话框 -->
     <el-dialog append-to-body :title="title" :visible.sync="open" width="500px">
@@ -314,10 +262,7 @@ import {
   updateSpare,
   exportSpare,
   uploadAnnx,
-  download,
-  showUploadFile,
-  removeUpdated,
-  newUpdateFile
+  download
 } from "@/api/devsys/spare";
 
 export default {
@@ -330,9 +275,6 @@ export default {
   name: "Spare",
   data() {
     return {
-      picItem: '',
-      isShowImg: false,
-      upUrl: '#',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -385,7 +327,7 @@ export default {
       // 上传图片给的请求头
       headersObj: {
         Authorization: document.cookie.split("=")[1],
-      //  "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data"
       },
       clickedId: ''
     };
@@ -404,7 +346,7 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.currentEquipId, 333);
+    console.log(this.currentEquipId, 333);
   },
   methods: {
     // handleClose(done) {
@@ -418,7 +360,7 @@ export default {
     getList() {
       this.loading = true;
       listSpare(this.queryParams).then(response => {
-        // console.log(response,47474)
+        console.log(response,47474)
         this.spareList = response.rows;
         // 添加附件的数组
         this.spareList.forEach((val, index) => {
@@ -553,53 +495,33 @@ export default {
         .catch(function() {});
     },
     //#########################文件上传################################
-    async uploadBtnClick(id) {
-      console.log(id, 111)
+    uploadBtnClick(id) {
+      console.log(id)
       this.clickedId = id
-      await this.updataFile(id)
-
-    // window.location.host
-      this.upUrl = process.env.VUE_APP_BASE_API +`/devsys/spare/uploadFile`
-
+      // 获取上传按钮对应那一列表格数据中的附件列表，赋值给currentAttachList
+      // this.currentAttachList = this.spareList[index].attachList;
+      // 将控制弹框显示的dialogVisible设置为true，让弹框显示
       this.dialogVisible = true;
+      // 设置currentIndex
+      // this.currentIndex = index;
     },
-    // 根据id 跟新数组 数据
-    async updataFile(id) {
-      this.currentAttachList = []
-      const { data } = await showUploadFile(id)
-      console.log(data, 112);
-      data.forEach(item => {
-        const obj = {}
-        obj.name = item.fname
-        obj.url = item.fpath
-        obj.fileId = item.fileId
-        this.currentAttachList.push(obj)
-      })
-      
-      console.log(this.currentAttachList, 222);
+    submitUpload() {
+      this.$refs.upload.submit();
     },
-    // 自己定义上传方法  把默认的上传覆盖了  而且还改了上传参数  必须接受 spareId  files(不是上传的默认file~)
     handleUploadForm(param){
-      console.log(param, 221);
       let formData = new FormData();
       formData.append("spareId", this.clickedId)
       formData.append("files", param.file)
       uploadAnnx(formData).then(res => {
-          this.$message({
-            type: 'success',
-            message: '上传成功!'
-          });
-        this.getList()
-        this.updataFile(this.clickedId)
-      }).catch( err => {
         this.$message({
-          type: 'error',
-          message: '上传类型错误!'
+          type: 'success',
+          message: '上传成功!'
         });
-
-        this.getList()
-        this.updataFile(this.clickedId)
+        this.getList();
       })
+      this.$refs.upload.clearFiles()
+      this.dialogVisible = false;
+      // this.handleRemove(param)
     },
 
     uploadSuccess(response, file, fileList) {
@@ -609,17 +531,9 @@ export default {
       });
     },
     handlePreview(file) {
-      console.log(file, 1212);
-      // this.picItem = file.name
-      // this.isShowImg = true
+      console.log(file);
     },
-
-    handleClose() {
-       // this.isShowImg = false
-    },
-
     beforeRemove(file, fileList) {
-      console.log(file, fileList, 789);
       if (this.isRepeat == false) {
         return this.$confirm(
           "此操作将永久删除" + file.name + "文件, 是否继续?"
@@ -627,7 +541,6 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      console.log(666, file, fileList);
       if (this.isRepeat == false) {
         var currentIndex = this.currentIndex;
         var attachList = this.spareList[currentIndex].attachList;
@@ -641,22 +554,6 @@ export default {
       } else {
         this.isRepeat = false;
       }
-
-      removeUpdated(file.fileId).then(res => {
-        console.log(res, 44);
-        if(res.code === 200) {
-          this.$message({
-            type: 'success',
-            message: res.msg
-          });
-        } else {
-          this.$message({
-            type: 'error',
-            message: '删除失败'
-          });
-        }
-        this.updataFile(this.clickedId)
-      })
     },
     beforeUpload(file) {
       var currentIndex = this.currentIndex;
@@ -698,32 +595,6 @@ export default {
           }
         }
       })
-    },
-
-    newWatch(data) {
-      console.log(data);
-      window.open(process.env.VUE_APP_BASE_API + data.url)
-    },
-    newDelete(data) {
-       this.$confirm('是否确认删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.handleRemove(data)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-    },
-    async newUpdate(data) {
-      data.spareId = data.fileId
-      data.fname = data.name
-      console.log(data, 36);
-      const res = await this.downloadBtnClick(data)
-      console.log(res,112);
     }
   }
 };

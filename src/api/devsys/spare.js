@@ -83,3 +83,27 @@ export function uploadAnnx(formData) {
     method: 'post'
   })
 }
+
+// 获取上传文件显示
+export function showUploadFile(id) {
+  return request({
+    url: '/devsys/spare/obtainFile/' + id,
+    method: 'get'
+  })
+}
+// 移除上传文件
+export function removeUpdated(FileId) {
+  return request({
+    url: '/devsys/spare/delFile/' + FileId,
+    method: 'delete',
+    // params: id-0
+  })
+}
+// 下载文件
+export function newUpdateFile(fileId) {
+  return request({
+    url: '/devsys/spare/download',
+    method: 'post',
+    fileId
+  })
+}
