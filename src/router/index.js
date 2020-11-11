@@ -133,18 +133,11 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'spare/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/spare/index'),
-        component: (resolve) => require(['@/views/devsys/spare/index'], resolve),
-        name: 'Spare',
-        meta: { title: '备品备件', icon: '' }
-      },
-      {
-        path: 'material/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/material/index'),
-        component: (resolve) => require(['@/views/devsys/material/index'], resolve),
-        name: 'Material',
-        meta: { title: '技术资料', icon: '' }
+        path: 'information/index/:equipId(\\d+)',
+        // component: () => import('@/views/devsys/norm/index'),
+        component: (resolve) => require(['@/views/devsys/information/index'], resolve),
+        name: 'Information',
+        meta: { title: '设备信息', icon: '' }
       },
       {
         path: 'repair/index/:equipId(\\d+)',
@@ -154,40 +147,69 @@ export const constantRoutes = [
         meta: { title: '检修记录', icon: '' }
       },
       {
-        path: 'constval/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/constval/index'),
-        component: (resolve) => require(['@/views/devsys/constval/index'], resolve),
-        name: 'Constval',
-        meta: { title: '设备定值', icon: '' }
-      },
-      {
-        path: 'norm/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/norm/index'),
-        component: (resolve) => require(['@/views/devsys/norm/index'], resolve),
-        name: 'Norm',
-        meta: { title: '设备规范', icon: '' }
-      },
-      {
-        path: 'track/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/track/index'),
-        component: (resolve) => require(['@/views/devsys/track/index'], resolve),
-        name: 'Track',
-        meta: { title: '设备跟踪', icon: '' }
+        path: 'fault/index/:equipId(\\d+)',
+        // component: () => import('@/views/devsys/repair/index'),
+        component: (resolve) => require(['@/views/devsys/fault/index'], resolve),
+        name: 'Fault',
+        meta: { title: '故障记录', icon: '' }
       },
       {
         path: 'alteration/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/alteration/index'),
+        // component: () => import('@/views/devsys/repair/index'),
         component: (resolve) => require(['@/views/devsys/alteration/index'], resolve),
         name: 'Alteration',
         meta: { title: '异动变更', icon: '' }
       },
       {
-        path: 'reform/index/:equipId(\\d+)',
-        // component: () => import('@/views/devsys/reform/index'),
-        component: (resolve) => require(['@/views/devsys/reform/index'], resolve),
-        name: 'Reform',
-        meta: { title: '重大技改', icon: '' }
+        path: 'subsidiary/index/:equipId(\\d+)',
+        // component: () => import('@/views/devsys/repair/index'),
+        component: (resolve) => require(['@/views/devsys/subsidiary/index'], resolve),
+        name: 'Subsidiary',
+        meta: { title: '附属设备明细', icon: '' }
+      },
+      {
+        path: 'spare/index/:equipId(\\d+)',
+        // component: () => import('@/views/devsys/spare/index'),
+        component: (resolve) => require(['@/views/devsys/spare/index'], resolve),
+        name: 'Spare',
+        meta: { title: '备品备件', icon: '' }
       }
+      // {
+      //   path: 'material/index/:equipId(\\d+)',
+      //   // component: () => import('@/views/devsys/material/index'),
+      //   component: (resolve) => require(['@/views/devsys/material/index'], resolve),
+      //   name: 'Material',
+      //   meta: { title: '技术资料', icon: '' }
+      // },
+      // {
+      //   path: 'constval/index/:equipId(\\d+)',
+      //   // component: () => import('@/views/devsys/constval/index'),
+      //   component: (resolve) => require(['@/views/devsys/constval/index'], resolve),
+      //   name: 'Constval',
+      //   meta: { title: '设备定值', icon: '' }
+      // },
+      
+      // {
+      //   path: 'track/index/:equipId(\\d+)',
+      //   // component: () => import('@/views/devsys/track/index'),
+      //   component: (resolve) => require(['@/views/devsys/track/index'], resolve),
+      //   name: 'Track',
+      //   meta: { title: '设备跟踪', icon: '' }
+      // },
+      // {
+      //   path: 'alteration/index/:equipId(\\d+)',
+      //   // component: () => import('@/views/devsys/alteration/index'),
+      //   component: (resolve) => require(['@/views/devsys/alteration/index'], resolve),
+      //   name: 'Alteration',
+      //   meta: { title: '异动变更', icon: '' }
+      // },
+      // {
+      //   path: 'reform/index/:equipId(\\d+)',
+      //   // component: () => import('@/views/devsys/reform/index'),
+      //   component: (resolve) => require(['@/views/devsys/reform/index'], resolve),
+      //   name: 'Reform',
+      //   meta: { title: '重大技改', icon: '' }
+      // }
     ]
   }
   // {

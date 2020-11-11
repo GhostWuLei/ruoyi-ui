@@ -171,7 +171,6 @@
     />
 
     <!-- 上传附件对话框 -->
-    <el-dialog title="附件管理" :visible.sync="dialogVisible" width="50%">
     <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="20%">
       <!-- 将<el-upload>代码添加到<el-dialog>代码块中 -->
       <!-- <el-upload
@@ -190,7 +189,6 @@
           只能上传jpg/png文件，且不超过500kb
         </div>
       </el-upload> -->
-    </el-dialog>
 
       <el-upload
         class="upload-demo"
@@ -277,7 +275,6 @@ export default {
   name: "Spare",
   data() {
     return {
-      dialogImageUrl: "",
       // 遮罩层
       loading: true,
       // 选中数组
@@ -363,6 +360,7 @@ export default {
     getList() {
       this.loading = true;
       listSpare(this.queryParams).then(response => {
+        console.log(response,47474)
         this.spareList = response.rows;
         // 添加附件的数组
         this.spareList.forEach((val, index) => {
@@ -519,10 +517,11 @@ export default {
           type: 'success',
           message: '上传成功!'
         });
+        this.getList();
       })
       this.$refs.upload.clearFiles()
       this.dialogVisible = false;
-      this.getList();
+      // this.handleRemove(param)
     },
 
     uploadSuccess(response, file, fileList) {
@@ -575,7 +574,7 @@ export default {
       console.log(row,11112233)
       download(row.spareId).then(res => {
         console.log(res,111112266)
-        if (res) {
+        if (res.data.size>0) {
           const content = res.data;
           const blob = new Blob([content]);
           // const fileName = `${rowName}.zip`;
