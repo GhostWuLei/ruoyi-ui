@@ -1,15 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <!-- <el-form-item label="设备ID" prop="equipId">
-        <el-input
-          v-model="queryParams.equipId"
-          placeholder="请输入设备ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
       <el-form-item label="备件名称" prop="spareName">
         <el-input
           v-model="queryParams.spareName"
@@ -86,7 +77,7 @@
 
     <el-table v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="备件ID" align="center" prop="spareId" />
+      <el-table-column label="编号" align="center" prop="spareId" />
       <el-table-column label="备件名称" align="center" prop="spareName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
       <el-table-column label="技术参数" align="center" prop="techParam" />
@@ -123,7 +114,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -142,7 +133,7 @@
         :on-remove="handleRemove"
         :file-list="currentAttachList"
         :headers="headersObj"
-        :http-request="handleUploadForm" 
+        :http-request="handleUploadForm"
         :show-file-list='false'
       >
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -152,13 +143,13 @@
         :data="currentAttachList"
         style='height: 450px; overflow: auto;'
       >
-        <el-table-column 
-          label="名称" 
+        <el-table-column
+          label="名称"
           prop="name"
         >
         </el-table-column>
-        <el-table-column 
-          label="预览" 
+        <el-table-column
+          label="预览"
           prop="date"
         >
           <template slot-scope="scoped">
@@ -170,7 +161,7 @@
             >预览</el-button>
           </template>
         </el-table-column>
-        <el-table-column 
+        <el-table-column
           label="操作"
           prop="date"
         >
@@ -197,13 +188,13 @@
       <el-upload
         ref="upload"
         :limit="1"
-        accept=".xlsx, .xls" 
+        accept=".xlsx, .xls"
         :headers="upload.headers"
         :action="upload.url"
         :data='ocj'
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
-        :auto-upload="false" 
+        :auto-upload="false"
         drag
       >
         <i class="el-icon-upload"></i>
@@ -228,9 +219,9 @@
     <!-- 添加或修改备品备件对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="设备ID" prop="equipId">
-          <el-input v-model="form.equipId" placeholder="请输入设备ID" />
-        </el-form-item>
+<!--        <el-form-item label="设备ID" prop="equipId">-->
+<!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
+<!--        </el-form-item>-->
         <el-form-item label="备件名称" prop="spareName">
           <el-input v-model="form.spareName" placeholder="请输入备件名称" />
         </el-form-item>
@@ -342,7 +333,7 @@ export default {
         spareName: [
           { required: true, message: "备件名称不能为空", trigger: "blur" }
         ],
-      },      
+      },
     };
   },
   created() {
@@ -369,7 +360,7 @@ export default {
     reset() {
       this.form = {
         spareId: undefined,
-        // equipId: undefined,
+        equipId: this.ocj.equipId,
         spareName: undefined,
         specification: undefined,
         techParam: undefined,
@@ -494,7 +485,7 @@ export default {
         obj.fileId = item.fileId
         this.currentAttachList.push(obj)
       })
-      
+
       console.log(this.currentAttachList, 222);
     },
     // 自己定义上传方法  把默认的上传覆盖了  而且还改了上传参数  必须接受 spareId  files(不是上传的默认file~)
@@ -627,7 +618,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
     },
     async newUpdate(data) {

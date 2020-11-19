@@ -1,16 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <!-- <el-form-item label="设备ID" prop="equipId">
-        <el-input
-          v-model="queryParams.equipId"
-          placeholder="请输入设备ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
-      <el-form-item label="KKS编码" prop="kks">
+      <el-form-item label="KKS编码" label-width="70px" prop="kks">
         <el-input
           v-model="queryParams.kks"
           placeholder="请输入KKS编码"
@@ -91,7 +82,7 @@
 
     <el-table v-loading="loading" :data="subsidiaryList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="附属设备ID" align="center" prop="subsidiaryId" />
+      <el-table-column label="编号" align="center"  prop="subsidiaryId" />
       <el-table-column label="KKS编码" width='140' align="center" prop="kks" />
       <el-table-column label="设备名称" width='130' align="center" prop="equipName" />
       <el-table-column label="设备类型" align="center" prop="subsType" />
@@ -128,7 +119,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -147,7 +138,7 @@
         :on-remove="handleRemove"
         :file-list="currentAttachList"
         :headers="headersObj"
-        :http-request="handleUploadForm" 
+        :http-request="handleUploadForm"
         :show-file-list='false'
       >
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -157,13 +148,13 @@
         :data="currentAttachList"
         style='height: 450px; overflow: auto;'
       >
-        <el-table-column 
-          label="名称" 
+        <el-table-column
+          label="名称"
           prop="name"
         >
         </el-table-column>
-        <el-table-column 
-          label="预览" 
+        <el-table-column
+          label="预览"
           prop="date"
         >
           <template slot-scope="scoped">
@@ -175,7 +166,7 @@
             >预览</el-button>
           </template>
         </el-table-column>
-        <el-table-column 
+        <el-table-column
           label="操作"
           prop="date"
         >
@@ -202,13 +193,13 @@
       <el-upload
         ref="upload"
         :limit="1"
-        accept=".xlsx, .xls" 
+        accept=".xlsx, .xls"
         :headers="upload.headers"
         :action="upload.url"
         :data='ocj'
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
-        :auto-upload="false" 
+        :auto-upload="false"
         drag
       >
         <i class="el-icon-upload"></i>
@@ -230,9 +221,9 @@
     <!-- 添加或修改附属设备明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="设备ID" prop="equipId">
-          <el-input v-model="form.equipId" placeholder="请输入设备ID" />
-        </el-form-item>
+<!--        <el-form-item label="设备ID" prop="equipId">-->
+<!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
+<!--        </el-form-item>-->
         <el-form-item label="KKS编码" prop="kks">
           <el-input v-model="form.kks" placeholder="请输入KKS编码" />
         </el-form-item>
@@ -374,7 +365,7 @@ export default {
     reset() {
       this.form = {
         subsidiaryId: undefined,
-        // equipId: undefined,
+        equipId: this.ocj.equipId,
         kks: undefined,
         equipName: undefined,
         subsType: undefined,
@@ -500,7 +491,7 @@ export default {
         obj.fileId = item.fileId
         this.currentAttachList.push(obj)
       })
-      
+
       console.log(this.currentAttachList, 222);
     },
     // 自己定义上传方法  把默认的上传覆盖了  而且还改了上传参数  必须接受 subsidiaryId  files(不是上传的默认file~)
@@ -633,7 +624,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
     },
     async newUpdate(data) {

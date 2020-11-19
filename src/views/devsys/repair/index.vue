@@ -85,11 +85,11 @@
 
     <el-table v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="检修内容" width='300' prop="repairContent">
+      <el-table-column label="检修内容" width='550' prop="repairContent">
          <template slot-scope="scoped">
           <span v-html="scoped.row.repairContent"></span>
         </template>
-      </el-table-column> 
+      </el-table-column>
       <el-table-column label="处理问题" align="center" prop="handleProblem" />
       <el-table-column label="遗留问题" align="center" prop="remainProblem" />
       <el-table-column label="检修级别" align="center" prop="repairLevel" />
@@ -137,7 +137,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -156,7 +156,7 @@
         :on-remove="handleRemove"
         :file-list="currentAttachList"
         :headers="headersObj"
-        :http-request="handleUploadForm" 
+        :http-request="handleUploadForm"
         :show-file-list='false'
       >
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -167,13 +167,13 @@
         :data="currentAttachList"
         style='height: 450px; overflow: auto;'
       >
-        <el-table-column 
-          label="名称" 
+        <el-table-column
+          label="名称"
           prop="name"
         >
         </el-table-column>
-        <el-table-column 
-          label="预览" 
+        <el-table-column
+          label="预览"
           prop="date"
         >
           <template slot-scope="scoped">
@@ -185,7 +185,7 @@
             >预览</el-button>
           </template>
         </el-table-column>
-        <el-table-column 
+        <el-table-column
           label="操作"
           prop="date"
         >
@@ -212,13 +212,13 @@
       <el-upload
         ref="upload"
         :limit="1"
-        accept=".xlsx, .xls" 
+        accept=".xlsx, .xls"
         :headers="upload.headers"
         :action="upload.url"
         :data='ocj'
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
-        :auto-upload="false" 
+        :auto-upload="false"
         drag
       >
         <i class="el-icon-upload"></i>
@@ -417,7 +417,7 @@ export default {
     reset() {
       this.form = {
         repairId: undefined,
-        // equipId: undefined,
+        equipId: this.ocj.equipId,
         startTime: undefined,
         finishTime: undefined,
         repairLevel: undefined,
@@ -548,7 +548,7 @@ export default {
         obj.fileId = item.fileId
         this.currentAttachList.push(obj)
       })
-      
+
       console.log(this.currentAttachList, 222);
     },
     // 自己定义上传方法  把默认的上传覆盖了  而且还改了上传参数  必须接受 repairId  files(不是上传的默认file~)
@@ -667,7 +667,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
     },
     async newUpdate(data) {
