@@ -240,6 +240,9 @@
         <el-form-item label="厂家" prop="productor">
           <el-input v-model="form.productor" placeholder="请输入厂家" />
         </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>

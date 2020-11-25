@@ -97,13 +97,10 @@
       <el-table-column label="检修周期" align="center" prop="cycle" />
       <el-table-column label="安装日期" align="center" prop="installTime" width="100">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.installTime) }}</span>
+          <span>{{ (scope.row.installTime!=null?scope.row.installTime.substr(0, 10):scope.row.installTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="安装地点" align="center" prop="installPlace" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.installPlace) }}</span>
-        </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column prop="attach" label="附件管理" align="center">
@@ -263,12 +260,10 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="安装地点" prop="installPlace">
-          <el-date-picker clearable size="small" style="width: 200px"
-            v-model="form.installPlace"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择安装地点">
-          </el-date-picker>
+          <el-input v-model="form.installPlace" placeholder="请输入安装地点" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

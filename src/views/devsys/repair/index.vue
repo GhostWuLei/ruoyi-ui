@@ -95,16 +95,16 @@
       <el-table-column label="检修级别" align="center" prop="repairLevel" />
       <el-table-column width='100' label="开始时间" align="center" prop="startTime" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.startTime) }}</span>
+          <span>{{ (scope.row.startTime !=null ? scope.row.startTime.substr(0, 10):scope.row.startTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column width='100' label="结束时间" align="center" prop="finishTime" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.finishTime) }}</span>
-        </template>
+        <span>{{ (scope.row.finishTime !=null ? scope.row.finishTime.substr(0, 10):scope.row.finishTime) }}</span>
+      </template>
       </el-table-column>
       <el-table-column label="检修班组" align="center" prop="clazz" />
-      <el-table-column label="检修单位" align="center" prop="repairUnit" />
+      <el-table-column label="检修单位" width="100" align="center" prop="repairUnit" />
       <el-table-column label="负责人" width='100' align="center" prop="leader" />
       <el-table-column label="联系人" width='100' align="center" prop="linkman" />
       <el-table-column label="备注" align="center" prop="remark" />
@@ -298,6 +298,11 @@
               <el-input v-model="form.linkman" placeholder="请输入工作联系人" />
             </el-form-item>
           </el-col>
+          <el-col>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" placeholder="请输入备注" />
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -404,6 +409,8 @@ export default {
       this.loading = true;
       listRepair(this.queryParams).then(response => {
         this.repairList = response.rows;
+        // this.repairList.startTime.replace('T');
+
         this.total = response.total;
         this.loading = false;
       });

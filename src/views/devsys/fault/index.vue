@@ -87,14 +87,14 @@
       <el-table-column label="故障ID" align="center" prop="faultId" />
       <el-table-column label="发现日期" align="center" prop="findTime" width="100">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.findTime) }}</span>
+          <span>{{ (scope.row.findTime !=null ? scope.row.findTime.substr(0, 10):scope.row.findTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column width='200' label="故障现象" prop="appearance" />
       <el-table-column label="分析" width='300' prop="analysis" />
       <el-table-column label="处理日期" align="center" prop="handleTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.handleTime) }}</span>
+          <span>{{ (scope.row.handleTime !=null ? scope.row.handleTime.substr(0, 10):scope.row.handleTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column width='200' label="处理过程" prop="process" />
@@ -258,6 +258,9 @@
         </el-form-item>
         <el-form-item label="损坏情况" prop="damage">
           <el-input v-model="form.damage" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

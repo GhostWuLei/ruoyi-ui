@@ -85,7 +85,7 @@
       <el-table-column label="编号" align="center"  prop="subsidiaryId" />
       <el-table-column label="KKS编码" width='140' align="center" prop="kks" />
       <el-table-column label="设备名称" width='130' align="center" prop="equipName" />
-      <el-table-column label="设备类型" align="center" prop="subsType" />
+      <el-table-column label="设备类型" width="100" align="center" prop="subsType" />
       <el-table-column label="型号" width='150' align="center" prop="specification" />
       <el-table-column label="单位" align="center" prop="unit" />
       <el-table-column label="生产厂家" width='130' align="center" prop="productor" />
@@ -243,6 +243,9 @@
         </el-form-item>
         <el-form-item label="生产厂家" prop="productor">
           <el-input v-model="form.productor" placeholder="请输入生产厂家" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
