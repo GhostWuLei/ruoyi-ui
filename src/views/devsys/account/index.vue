@@ -145,12 +145,13 @@ export default {
     },
     // 点击树节点时触发
     handleNodeClick(data){
-      // console.log(data.id);
+      // console.log(data, 88);
 
       this.currentEquipId = data.id
       this.currentEquipName = data.label
       //获取当前点击的设备信息 如果点击的是设备 则显示设备台账
       getEquip(this.currentEquipId).then(response => {
+        console.log(response, 789789);
         if(response.data.catalogType === '0'){
           this.isEquip = true
         }else{
@@ -159,7 +160,7 @@ export default {
         this.equip = response.data
       })
 
-      this.getTreeselect()
+      // this.getTreeselect()
     }
 
   }

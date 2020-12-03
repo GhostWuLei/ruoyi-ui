@@ -428,9 +428,6 @@ export default {
         this.loading = false;
       });
     },
-    headersObj(){
-
-    },
     /** 查询部门下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
