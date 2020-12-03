@@ -1,15 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="设备ID" prop="equipId">
-        <el-input
-          v-model="queryParams.equipId"
-          placeholder="请输入设备ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="备件名称" prop="spareName">
         <el-input
           v-model="queryParams.spareName"
@@ -77,7 +68,6 @@
 
     <el-table v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="备件ID" align="center" prop="spareId" />
       <el-table-column label="备件名称" align="center" prop="spareName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
       <el-table-column label="技术参数" align="center" prop="techParam" />
