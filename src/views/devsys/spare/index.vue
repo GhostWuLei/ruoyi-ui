@@ -80,7 +80,11 @@
       <el-table-column label="编号" align="center" prop="spareId" />
       <el-table-column label="备件名称" align="center" prop="spareName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
-      <el-table-column label="技术参数" align="center" prop="techParam" />
+      <el-table-column label="技术参数" align="left" prop="techParam" width="300">
+        <template slot-scope="scoped">
+          <span v-html="scoped.row.techParam"></span>
+        </template>
+      </el-table-column>
       <el-table-column label="数量" align="center" prop="num" />
       <el-table-column label="图号" align="center" prop="pictureNum" />
       <el-table-column label="厂家" align="center" prop="productor" />
@@ -205,7 +209,7 @@
         <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
+        <el-button type="primary" @click="submitFileForm">确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
