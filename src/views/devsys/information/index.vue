@@ -88,9 +88,16 @@
       <el-table-column label="信息ID" align="center" prop="informationId" />
       <el-table-column label="设备名称" align="center" prop="equipName" />
       <el-table-column width="100" label="设备型号" align="center" prop="specification" />
-      <el-table-column label="设备参数" prop="equipParam" width='300'>
-        <template slot-scope="scoped">
-          <span v-html="scoped.row.equipParam"></span>
+      <el-table-column prop="equipParam"
+                       align="left"
+                       width="280"
+                       label="设备参数">
+        <template slot-scope="scope">
+          <el-collapse v-if="scope.row.equipParam.length>5">
+            <el-collapse-item :title="scope.row.equipParam.substring(0,8)" >
+              <div v-html="scope.row.equipParam"></div>
+            </el-collapse-item>
+          </el-collapse>
         </template>
       </el-table-column>
       <el-table-column label="技术要求" align="center" prop="techParam" />
