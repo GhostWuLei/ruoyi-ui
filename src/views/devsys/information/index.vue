@@ -93,11 +93,12 @@
                        width="280"
                        label="设备参数">
         <template slot-scope="scope">
-          <el-collapse v-if="scope.row.equipParam.length>5">
+          <el-collapse v-if="scope.row.equipParam.length>15">
             <el-collapse-item :title="scope.row.equipParam.substring(0,8)" >
-              <div v-html="scope.row.equipParam"></div>
-            </el-collapse-item>
+            <div v-html="scope.row.equipParam"></div>
+          </el-collapse-item>
           </el-collapse>
+          <span v-else v-html="scope.row.equipParam"></span>
         </template>
       </el-table-column>
       <el-table-column label="技术要求" align="center" prop="techParam" />
