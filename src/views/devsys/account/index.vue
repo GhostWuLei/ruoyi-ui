@@ -21,7 +21,6 @@
             :filter-node-method="filterNode"
             ref="tree"
             highlight-current
-            default-expand-all
             @node-click="handleNodeClick"
           >
             <span class="custom-tree-node" slot-scope="{ node, data }">
