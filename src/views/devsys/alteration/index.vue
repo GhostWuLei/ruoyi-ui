@@ -88,9 +88,9 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="变更ID" align="center" prop="alterationId" />
       <!-- <el-table-column label="设备ID" align="center" prop="equipId" /> -->
-      <el-table-column label="设备名称" width='150' align="center" prop="equipName" />
-      <el-table-column label="变动原因" width='500' align="left" prop="reason" />
-      <el-table-column label="变动效果" width='300' align="left" prop="effect" />
+      <el-table-column label="设备名称" width='150' header-align="center" prop="equipName" />
+      <el-table-column label="变动原因" width='500' header-align="center" prop="reason" />
+      <el-table-column label="变动效果" width='300' header-align="center" align="left" prop="effect" />
       <el-table-column label="负责人" align="center" prop="leader" />
       <el-table-column label="评价" align="center" prop="evaluate" />
       <el-table-column label="备注" align="center" prop="remark" />
@@ -241,7 +241,7 @@
           <el-input v-model="form.evaluate" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" :rows="5"  />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

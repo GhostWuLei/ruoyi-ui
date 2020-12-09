@@ -10,20 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="发现日期" prop="findTime">
-        <el-date-picker clearable size="small" style="width: 200px"
+      <el-form-item label="发现日期" prop="startTime">
+        <el-date-picker
           v-model="queryParams.findTime"
-          type="date"
+          type="daterange"
           value-format="yyyy-MM-dd"
-          placeholder="选择发现日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="处理日期" prop="handleTime">
-        <el-date-picker clearable size="small" style="width: 200px"
-          v-model="queryParams.handleTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择处理日期">
+          range-separator="至"
+          start-placeholder="发现日期"
+          :picker-options="pickerOptions"
+          end-placeholder="处理日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -90,17 +85,17 @@
           <span>{{ (scope.row.findTime !=null ? scope.row.findTime.substr(0, 10):scope.row.findTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width='200' label="故障现象" prop="appearance" />
-      <el-table-column label="分析" width='300' prop="analysis" />
-      <el-table-column label="处理日期" align="center" prop="handleTime" width="180">
+      <el-table-column width='200' label="故障现象" prop="appearance"  header-align="center" align="left" />
+      <el-table-column label="分析" width='300' prop="analysis"  header-align="center" align="left" />
+      <el-table-column label="处理日期"  prop="handleTime" width="180"  header-align="center" align="left">
         <template slot-scope="scope">
           <span>{{ (scope.row.handleTime !=null ? scope.row.handleTime.substr(0, 10):scope.row.handleTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width='200' label="处理过程" prop="process" />
-      <el-table-column label="损坏情况"  width='150' prop="damage" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" align="center">
+      <el-table-column width='200' label="处理过程" prop="process" header-align="center" align="left"/>
+      <el-table-column label="损坏情况"  width='150' prop="damage"  header-align="center" align="center" />
+      <el-table-column label="备注"  prop="remark"  header-align="center" align="center" />
+      <el-table-column prop="attach" label="附件管理"  header-align="center" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -226,42 +221,58 @@
     </el-dialog>
 
     <!-- 添加或修改故障记录对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px">
+    <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 <!--        <el-form-item label="设备ID" prop="equipId">-->
 <!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="发现日期" prop="findTime">
-          <el-date-picker clearable size="small" style="width: 200px"
-            v-model="form.findTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择发现日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="故障现象" prop="appearance">
-          <el-input v-model="form.appearance" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="分析" prop="analysis">
-          <el-input v-model="form.analysis" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="处理日期" prop="handleTime">
-          <el-date-picker clearable size="small" style="width: 200px"
-            v-model="form.handleTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择处理日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="处理过程" prop="process">
-          <el-input v-model="form.process" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="损坏情况" prop="damage">
-          <el-input v-model="form.damage" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="发现日期" prop="findTime">
+              <el-date-picker clearable size="small" style="width: 200px"
+                v-model="form.findTime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择发现日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="处理日期" prop="handleTime">
+              <el-date-picker clearable size="small" style="width: 200px"
+                v-model="form.handleTime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择处理日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="故障现象" prop="appearance">
+              <el-input v-model="form.appearance" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="分析" prop="analysis">
+              <el-input v-model="form.analysis" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="处理过程" prop="process">
+              <el-input v-model="form.process" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="损坏情况" prop="damage">
+              <el-input v-model="form.damage" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" :rows="5" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -291,6 +302,11 @@ export default {
   },
   data() {
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e7;
+        }
+      },
       loading: null,
       fullscreenLoading: false,
        // 导入参数
@@ -362,10 +378,17 @@ export default {
   methods: {
     /** 查询故障记录列表 */
     getList() {
+      let queryParams = this.queryParams
       this.ocj.equipId = this.currentEquipId
-      this.queryParams.equipId = this.currentEquipId
+      queryParams.equipId = this.currentEquipId
+
+      if (queryParams.findTime) {
+        queryParams.handleTime = queryParams.findTime[1]
+        queryParams.findTime = queryParams.findTime[0]
+      }
+      console.log(queryParams, 999);
       this.loading = true;
-      listFault(this.queryParams).then(response => {
+      listFault(queryParams).then(response => {
         this.faultList = response.rows;
         this.total = response.total;
         this.loading = false;

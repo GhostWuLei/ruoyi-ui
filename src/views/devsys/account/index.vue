@@ -40,7 +40,7 @@
             highlight-current
             default-expand-all
             @node-click="handleNodeClick">
-            <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span class="custom-tree-node" slot-scope="{ data }">
               <span>
                   <i class="el-icon-folder" v-if="data.children"></i>
                   <i class="el-icon-document" v-else></i>
@@ -112,6 +112,7 @@ import alterationVue from '@/views/devsys/alteration/index.vue'
 // import reformVue from '@/views/devsys/reform/index.vue'
 // import trackVue from '@/views/devsys/track/index.vue'
 export default {
+  name: 'Account',
   data() {
     return {
       isEquip: false,
@@ -123,7 +124,7 @@ export default {
         children: "children",
         label: "label"
       },
-      currentEquipId: undefined,
+      currentEquipId: 1,
       currentEquipName: undefined,
       //点击节点 查询出来的设备信息
       equip: {}
@@ -203,7 +204,19 @@ export default {
     getTreeselect() {
       treeselect().then(response => {
         this.equipOptions = response.data;
-      });
+        this.dealClassList()
+      })
+    },
+    dealClassList () {
+      this.$nextTick(
+        () => {
+          if (this.currentEquipId === 1) {
+            document.querySelector(".el-tree-node.is-expanded.is-focusable").classList.add('is-current')
+          } else {
+            document.querySelector(".el-tree-node.is-expanded.is-focusable").classList.remove('is-current')
+          }
+        }
+      )
     },
     // 筛选节点
     filterNode(value, data) {
@@ -216,7 +229,11 @@ export default {
       this.currentEquipId = data.id
       this.currentEquipName = data.label
       //获取当前点击的设备信息 如果点击的是设备 则显示设备台账
-      getEquip(this.currentEquipId).then(response => {
+      this.questById(this.currentEquipId)
+      this.dealClassList()
+    },
+    questById (id) {
+      getEquip(id).then(response => {
         if(response.data.catalogType === '0'){
           this.isEquip = true
         }else{
@@ -224,8 +241,6 @@ export default {
         }
         this.equip = response.data
       })
-
-      // this.getTreeselect()
     }
 
   }
