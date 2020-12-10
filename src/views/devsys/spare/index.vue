@@ -77,10 +77,19 @@
 
     <el-table v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+<<<<<<< HEAD
+=======
       <el-table-column label="编号" align="center" prop="spareId" />
+<<<<<<< HEAD
+>>>>>>> e21c89c0ab6cb16ae3a451809a7958f00b7bb0e4
+      <el-table-column label="备件名称" align="center" prop="spareName" />
+      <el-table-column label="规格型号" align="center" prop="specification" />
+      <el-table-column label="技术参数" align="left" prop="techParam" width="300">
+=======
       <el-table-column label="备件名称" align="center" prop="spareName" width="200px" />
       <el-table-column label="规格型号"  prop="specification" width="150px"  header-align="center" align="left"/>
       <el-table-column label="技术参数"  prop="techParam" width="300"  header-align="center" align="left">
+>>>>>>> 499f5b1e6b99cbe5d4b5136ada3196c55da97853
         <template slot-scope="scoped">
           <span v-html="scoped.row.techParam"></span>
         </template>
