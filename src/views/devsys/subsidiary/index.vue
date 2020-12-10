@@ -84,9 +84,9 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center"  prop="subsidiaryId" />
       <el-table-column label="KKS编码" width='140' align="center" prop="kks" />
-      <el-table-column label="设备名称" width='130' align="center" prop="equipName" />
+      <el-table-column label="设备名称" width='260' align="center" prop="equipName" />
       <el-table-column label="设备类型" width="100" align="center" prop="subsType" />
-      <el-table-column label="型号" width='150' align="center" prop="specification" />
+      <el-table-column label="型号" width='200' align="center" prop="specification" />
       <el-table-column label="单位" align="center" prop="unit" />
       <el-table-column label="生产厂家" width='130' align="center" prop="productor" />
       <el-table-column label="备注" align="center" prop="remark" />
@@ -189,7 +189,7 @@
     </el-dialog>
 
        <!-- 导入对话框  :auto-upload="false"   :http-request="handleUploadForm2"  -->
-    <el-dialog append-to-body :title="upload.title" :visible.sync="upload.open" width="400px">
+    <el-dialog append-to-body :title="upload.title"  :visible.sync="upload.open" width="400px">
       <el-upload
         ref="upload"
         :limit="1"
@@ -219,36 +219,52 @@
     </el-dialog>
 
     <!-- 添加或修改附属设备明细对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px">
+    <el-dialog :title="title" :visible.sync="open" width="750px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 <!--        <el-form-item label="设备ID" prop="equipId">-->
 <!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="KKS编码" prop="kks">
-          <el-input v-model="form.kks" placeholder="请输入KKS编码" />
-        </el-form-item>
-        <el-form-item label="设备名称" prop="equipName">
-          <el-input v-model="form.equipName" placeholder="请输入设备名称" />
-        </el-form-item>
-        <el-form-item label="设备类型">
-          <el-select v-model="form.subsType" placeholder="请选择设备类型">
-            <el-option label="请选择字典生成" value="" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="型号" prop="specification">
-          <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="单位" prop="unit">
-          <el-input v-model="form.unit" placeholder="请输入单位" />
-        </el-form-item>
-        <el-form-item label="生产厂家" prop="productor">
-          <el-input v-model="form.productor" placeholder="请输入生产厂家" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="KKS编码" prop="kks">
+              <el-input v-model="form.kks" placeholder="请输入KKS编码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="设备名称" prop="equipName">
+              <el-input v-model="form.equipName" placeholder="请输入设备名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="设备类型">
+              <el-select v-model="form.subsType" placeholder="请选择设备类型">
+                <el-option label="请选择字典生成" value="" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="型号" prop="specification">
+              <el-input v-model="form.specification"  placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="单位" prop="unit">
+              <el-input v-model="form.unit" placeholder="请输入单位" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="生产厂家" prop="productor">
+              <el-input v-model="form.productor" placeholder="请输入生产厂家" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" style="margin-top: 20px">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" :rows="5"  />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" style="margin-top: 80px">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>

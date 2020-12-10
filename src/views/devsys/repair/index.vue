@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true">
       <el-form-item label="检修内容" prop="repairContent">
         <el-input
           v-model="queryParams.repairContent"
@@ -20,11 +20,14 @@
         />
       </el-form-item>
       <el-form-item label="开始时间" prop="startTime">
-        <el-date-picker clearable size="small" style="width: 200px"
+        <el-date-picker
           v-model="queryParams.startTime"
-          type="date"
+          type="daterange"
           value-format="yyyy-MM-dd"
-          placeholder="选择检修开始时间">
+          range-separator="至"
+          start-placeholder="开始日期"
+          :picker-options="pickerOptions"
+          end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -300,7 +303,7 @@
           </el-col>
           <el-col>
             <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" placeholder="请输入备注" />
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" :rows="5" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -333,6 +336,11 @@ export default {
   },
   data() {
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e7;
+        }
+      },
        loading: null,
       fullscreenLoading: false,
        // 导入参数
@@ -384,6 +392,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         equipId: undefined,
+        finishTime: undefined,
         startTime: undefined,
         repairContent: undefined,
         leader: undefined
@@ -404,10 +413,17 @@ export default {
   methods: {
     /** 查询检修记录列表 */
     getList() {
+      let query = this.queryParams
       this.ocj.equipId = this.currentEquipId
-      this.queryParams.equipId = this.currentEquipId
+      query.equipId = this.currentEquipId
+
+      if (query.startTime) {
+        query.finishTime = query.startTime[1]
+        query.startTime = query.startTime[0]
+      }
+
       this.loading = true;
-      listRepair(this.queryParams).then(response => {
+      listRepair(query).then(response => {
         this.repairList = response.rows;
         // this.repairList.startTime.replace('T');
 

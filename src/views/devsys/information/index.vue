@@ -83,22 +83,17 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="informationList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="信息ID" align="center" prop="informationId" />
-      <el-table-column label="设备名称" align="center" prop="equipName" />
-      <el-table-column width="100" label="设备型号" align="center" prop="specification" />
+      <el-table-column label="设备名称" align="center" prop="equipName" width="150" />
+      <el-table-column width="150" label="设备型号" align="center" prop="specification" />
       <el-table-column prop="equipParam"
                        align="left"
                        width="280"
                        label="设备参数">
         <template slot-scope="scope">
-          <el-collapse v-if="scope.row.equipParam.length>15">
-            <el-collapse-item :title="scope.row.equipParam.substring(0,8)" >
-            <div v-html="scope.row.equipParam"></div>
-          </el-collapse-item>
-          </el-collapse>
-          <span v-else v-html="scope.row.equipParam"></span>
+          <span v-html="scope.row.equipParam"></span>
         </template>
       </el-table-column>
       <el-table-column label="技术要求" align="center" prop="techParam" />
@@ -239,40 +234,58 @@
 
 
     <!-- 添加或修改设备信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px">
+    <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 <!--        <el-form-item label="设备ID" prop="equipId">-->
 <!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="设备名称" prop="equipName">
-          <el-input v-model="form.equipName" placeholder="请输入设备名称" />
-        </el-form-item>
-        <el-form-item label="设备型号" prop="specification">
-          <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="设备参数" prop="equipParam">
-          <el-input v-model="form.equipParam" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="技术要求" prop="techParam">
-          <el-input v-model="form.techParam" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="检修周期" prop="cycle">
-          <el-input v-model="form.cycle" placeholder="请输入检修周期" />
-        </el-form-item>
-        <el-form-item label="安装日期" prop="installTime">
-          <el-date-picker clearable size="small" style="width: 200px"
-            v-model="form.installTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择安装日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="安装地点" prop="installPlace">
-          <el-input v-model="form.installPlace" placeholder="请输入安装地点" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="设备名称" prop="equipName">
+              <el-input v-model="form.equipName" placeholder="请输入设备名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span='12'>
+            <el-form-item label="安装地点" prop="installPlace">
+              <el-input v-model="form.installPlace" placeholder="请输入安装地点" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="设备型号" prop="specification">
+              <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="设备参数" prop="equipParam">
+              <el-input v-model="form.equipParam" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="技术要求" prop="techParam">
+              <el-input v-model="form.techParam" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span='12'>
+            <el-form-item label="检修周期" prop="cycle">
+              <el-input v-model="form.cycle" placeholder="请输入检修周期" />
+            </el-form-item>
+          </el-col>
+          <el-col :span='12'>
+            <el-form-item label="安装日期" prop="installTime">
+              <el-date-picker clearable size="small" style="width: 200px"
+                v-model="form.installTime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择安装日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" :rows="5"  />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -666,3 +679,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+/deep/ .el-table__body-wrapper.is-scrolling-left {
+  min-height: 300px;
+}
+</style>

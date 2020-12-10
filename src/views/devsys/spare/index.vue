@@ -80,17 +80,23 @@
 <<<<<<< HEAD
 =======
       <el-table-column label="编号" align="center" prop="spareId" />
+<<<<<<< HEAD
 >>>>>>> e21c89c0ab6cb16ae3a451809a7958f00b7bb0e4
       <el-table-column label="备件名称" align="center" prop="spareName" />
       <el-table-column label="规格型号" align="center" prop="specification" />
       <el-table-column label="技术参数" align="left" prop="techParam" width="300">
+=======
+      <el-table-column label="备件名称" align="center" prop="spareName" width="200px" />
+      <el-table-column label="规格型号"  prop="specification" width="150px"  header-align="center" align="left"/>
+      <el-table-column label="技术参数"  prop="techParam" width="300"  header-align="center" align="left">
+>>>>>>> 499f5b1e6b99cbe5d4b5136ada3196c55da97853
         <template slot-scope="scoped">
           <span v-html="scoped.row.techParam"></span>
         </template>
       </el-table-column>
       <el-table-column label="数量" align="center" prop="num" />
       <el-table-column label="图号" align="center" prop="pictureNum" />
-      <el-table-column label="厂家" align="center" prop="productor" />
+      <el-table-column label="厂家" align="center" prop="productor" width="200px" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column prop="attach" label="附件管理" align="center">
         <template slot-scope="scope">
@@ -224,32 +230,48 @@
     </el-dialog> -->
 
     <!-- 添加或修改备品备件对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px">
+    <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 <!--        <el-form-item label="设备ID" prop="equipId">-->
 <!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
 <!--        </el-form-item>-->
-        <el-form-item label="备件名称" prop="spareName">
-          <el-input v-model="form.spareName" placeholder="请输入备件名称" />
-        </el-form-item>
-        <el-form-item label="规格型号" prop="specification">
-          <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="技术参数" prop="techParam">
-          <el-input v-model="form.techParam" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="数量" prop="num">
-          <el-input v-model="form.num" placeholder="请输入数量" />
-        </el-form-item>
-        <el-form-item label="图号" prop="pictureNum">
-          <el-input v-model="form.pictureNum" placeholder="请输入图号" />
-        </el-form-item>
-        <el-form-item label="厂家" prop="productor">
-          <el-input v-model="form.productor" placeholder="请输入厂家" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="备件名称" prop="spareName">
+              <el-input v-model="form.spareName" placeholder="请输入备件名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="数量" prop="num">
+              <el-input v-model="form.num" placeholder="请输入数量" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="规格型号" prop="specification">
+              <el-input v-model="form.specification" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="技术参数" prop="techParam">
+              <el-input v-model="form.techParam" type="textarea" placeholder="请输入内容" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="图号" prop="pictureNum">
+              <el-input v-model="form.pictureNum" placeholder="请输入图号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="厂家" prop="productor">
+              <el-input v-model="form.productor" placeholder="请输入厂家" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" placeholder="请输入备注" :rows="5"  />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
