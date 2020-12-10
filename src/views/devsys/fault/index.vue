@@ -12,7 +12,6 @@
       </el-form-item> -->
       <el-form-item label="发现日期" prop="startTime">
         <el-date-picker
-          size="small"
           v-model="queryParams.findTime"
           type="daterange"
           value-format="yyyy-MM-dd"
