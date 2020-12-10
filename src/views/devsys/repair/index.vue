@@ -1,39 +1,52 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true">
-      <el-form-item label="检修内容" prop="repairContent">
-        <el-input
-          v-model="queryParams.repairContent"
-          placeholder="请输入检修内容"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="负责人" prop="leader">
-        <el-input
-          v-model="queryParams.leader"
-          placeholder="请输入负责人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="开始时间" prop="startTime">
-        <el-date-picker
-          v-model="queryParams.startTime"
-          type="daterange"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          :picker-options="pickerOptions"
-          end-placeholder="结束日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+      <el-row>
+        <el-col :span="5">
+          <el-form-item label="检修内容" prop="repairContent">
+            <el-input
+              style="width: 150px"
+              v-model="queryParams.repairContent"
+              placeholder="请输入检修内容"
+              clearable
+              size="small"
+              @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item label="负责人" prop="leader">
+            <el-input
+              style="width: 150px"
+              v-model="queryParams.leader"
+              placeholder="请输入负责人"
+              clearable
+              size="small"
+              @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="开始时间" prop="startTime">
+            <el-date-picker
+              size="small"
+              v-model="queryParams.startTime"
+              type="daterange"
+              value-format="yyyy-MM-dd"
+              range-separator="至"
+              start-placeholder="开始日期"
+              :picker-options="pickerOptions"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
