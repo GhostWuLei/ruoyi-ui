@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style="padding:0px 10px 20px 15px">
     <el-row :gutter="20" class="box" ref="box">
       <!-- 设备目录树 -->
       <el-col :span="5" :xs="24" class="left">
@@ -248,6 +248,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+/deep/.el-tabs__item {
+    padding: 0 20px;
+    height: 35px;
+    box-sizing: border-box;
+    line-height: 35px;
+    display: inline-block;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #303133;
+    position: relative;
+}
 .info-blank {
   font-size: 25px;
 }
@@ -258,6 +271,7 @@ export default {
 .el-icon-document {
   color: black;
 }
+
 // .mytree /deep/{
 //      .el-tree > .el-tree-node:after {
 //       border-top: none;

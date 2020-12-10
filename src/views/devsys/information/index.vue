@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+  <div>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" size="mini">
       <!-- <el-form-item label="设备ID" prop="equipId">
         <el-input
           v-model="queryParams.equipId"
@@ -683,5 +683,12 @@ export default {
 <style lang="scss" scoped>
 /deep/ .el-table__body-wrapper.is-scrolling-left {
   min-height: 300px;
+}
+/deep/ .el-input--small .el-input__inner {
+    height: 28px;
+    line-height: 28px;
+}
+/deep/ .el-form-item--mini.el-form-item {
+    margin-bottom: 15px;
 }
 </style>

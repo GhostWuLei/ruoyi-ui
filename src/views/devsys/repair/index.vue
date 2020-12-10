@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-form :model="queryParams" ref="queryForm" :inline="true">
       <el-form-item label="检修内容" prop="repairContent">
         <el-input
@@ -731,3 +731,12 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+/deep/ .el-input--small .el-input__inner {
+    height: 28px;
+    line-height: 28px;
+}
+/deep/ .el-form-item--mini.el-form-item {
+    margin-bottom: 15px;
+}
+</style>

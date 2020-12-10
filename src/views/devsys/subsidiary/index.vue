@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="KKS编码" label-width="70px" prop="kks">
         <el-input
@@ -80,7 +80,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="subsidiaryList" @selection-change="handleSelectionChange">
+    <el-table stripe v-loading="loading" :data="subsidiaryList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center"  prop="subsidiaryId" />
       <el-table-column label="KKS编码" width='140' align="center" prop="kks" />
@@ -684,4 +684,13 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+/deep/ .el-input--small .el-input__inner {
+    height: 28px;
+    line-height: 28px;
+}
+/deep/ .el-form-item--mini.el-form-item {
+    margin-bottom: 15px;
+}
+</style>
 
