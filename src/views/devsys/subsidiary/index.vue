@@ -121,6 +121,7 @@
     </el-table>
 
     <pagination
+      style="margin-bottom: 30px"
       v-show="total>0"
       :total="total"
       :page.sync="queryParams.pageNum"

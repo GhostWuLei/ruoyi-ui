@@ -21,6 +21,7 @@
       </el-form-item>
       <el-form-item label="开始时间" prop="startTime">
         <el-date-picker
+        size="small"
           v-model="queryParams.startTime"
           type="daterange"
           value-format="yyyy-MM-dd"
@@ -142,6 +143,7 @@
     </el-table>
 
     <pagination
+      style="margin-bottom: 30px"
       v-show="total>0"
       :total="total"
       :page.sync="queryParams.pageNum"
