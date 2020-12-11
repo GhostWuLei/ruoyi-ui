@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
+    <el-row :gutter="15">
       <!--部门数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
@@ -671,7 +671,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-
-</style>

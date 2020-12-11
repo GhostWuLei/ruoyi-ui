@@ -1,17 +1,9 @@
 <template>
   <div>
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <!-- <el-form-item label="设备ID" prop="equipId">
-        <el-input
-          v-model="queryParams.equipId"
-          placeholder="请输入设备ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item> -->
+    <el-form class="form1" :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="发现日期" prop="startTime">
         <el-date-picker
+          size="small"
           v-model="queryParams.findTime"
           type="daterange"
           value-format="yyyy-MM-dd"
@@ -78,8 +70,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="faultList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="故障ID" align="center" prop="faultId" />
+      <el-table-column type="selection" width="40" align="center" />
       <el-table-column label="发现日期" align="center" prop="findTime" width="100">
         <template slot-scope="scope">
           <span>{{ (scope.row.findTime !=null ? scope.row.findTime.substr(0, 10):scope.row.findTime) }}</span>
@@ -705,11 +696,3 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/deep/ .el-input--small .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-}
-/deep/ .el-form-item--mini.el-form-item {
-    margin-bottom: 15px;
-}
-</style>

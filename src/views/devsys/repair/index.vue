@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="queryParams" ref="queryForm" :inline="true">
+    <el-form class="form1" :model="queryParams" ref="queryForm" :inline="true">
       <el-form-item label="检修内容" prop="repairContent">
         <el-input
           v-model="queryParams.repairContent"
@@ -21,7 +21,7 @@
       </el-form-item>
       <el-form-item label="开始时间" prop="startTime">
         <el-date-picker
-        size="small"
+          size="small"
           v-model="queryParams.startTime"
           type="daterange"
           value-format="yyyy-MM-dd"
@@ -87,15 +87,15 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table stripe border v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="40" align="center" />
       <el-table-column label="检修内容" width='550' prop="repairContent">
          <template slot-scope="scoped">
           <span v-html="scoped.row.repairContent"></span>
         </template>
       </el-table-column>
-      <el-table-column label="处理问题" align="center" prop="handleProblem" />
-      <el-table-column label="遗留问题" align="center" prop="remainProblem" />
+      <el-table-column label="处理问题" header-align="center" width='150' prop="handleProblem" />
+      <el-table-column label="遗留问题" header-align="center" width='150' prop="remainProblem" />
       <el-table-column label="检修级别" align="center" prop="repairLevel" />
       <el-table-column width='100' label="开始时间" align="center" prop="startTime" >
         <template slot-scope="scope">
@@ -109,9 +109,9 @@
       </el-table-column>
       <el-table-column label="检修班组" align="center" prop="clazz" />
       <el-table-column label="检修单位" width="100" align="center" prop="repairUnit" />
-      <el-table-column label="负责人" width='100' align="center" prop="leader" />
-      <el-table-column label="联系人" width='100' align="center" prop="linkman" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="负责人" width='80' align="center" prop="leader" />
+      <el-table-column label="联系人" width='80' align="center" prop="linkman" />
+      <el-table-column label="备注" width='200' align="center" prop="remark" />
        <el-table-column label="附件管理" align="center">
         <template slot-scope="scope">
           <el-button
@@ -733,12 +733,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-/deep/ .el-input--small .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-}
-/deep/ .el-form-item--mini.el-form-item {
-    margin-bottom: 15px;
-}
-</style>

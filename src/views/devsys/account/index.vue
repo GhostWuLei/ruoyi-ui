@@ -76,24 +76,6 @@
           <el-tab-pane label="备品备件">
             <spare-vue :currentEquipId="this.currentEquipId"></spare-vue>
           </el-tab-pane>
-          <!-- <el-tab-pane label="技术资料">
-            <material-vue :currentEquipId="this.currentEquipId"></material-vue>
-          </el-tab-pane> -->
-          <!-- <el-tab-pane label="设备定值">
-            <constval-vue :currentEquipId="this.currentEquipId"></constval-vue>
-          </el-tab-pane>
-          <el-tab-pane label="设备规范">
-            <norm-vue :currentEquipId="this.currentEquipId"></norm-vue>
-          </el-tab-pane>
-          <el-tab-pane label="设备跟踪">
-            <track-vue :currentEquipId="this.currentEquipId"></track-vue>
-          </el-tab-pane>
-          <el-tab-pane label="异动变更">
-            <alteration-vue :currentEquipId="this.currentEquipId"></alteration-vue>
-          </el-tab-pane>
-          <el-tab-pane label="重大技改">
-            <reform-vue :currentEquipId="this.currentEquipId"></reform-vue>
-          </el-tab-pane> -->
         </el-tabs>
       </el-col>
     </el-row>
@@ -367,6 +349,6 @@ export default {
 /*右侧div'样式*/
 .mid {
   flex: 1;
-  box-shadow: -1px 4px 5px 3px rgba(190, 189, 189, 0.11);
+  //box-shadow: -1px 4px 5px 3px rgba(190, 189, 189, 0.11);
 }
 </style>

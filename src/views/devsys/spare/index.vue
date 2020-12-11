@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form class="form1" :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="备件名称" prop="spareName">
         <el-input
           v-model="queryParams.spareName"
@@ -75,10 +75,9 @@
       </el-col>
     </el-row>
 
-    <el-table stripe v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="编号" align="center" prop="spareId" />
-      <el-table-column label="备件名称" align="center" prop="spareName" width="200px" />
+    <el-table border stripe v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="40" align="center" />
+      <el-table-column label="备件名称" align="center" prop="spareName" width="150" />
       <el-table-column label="规格型号"  prop="specification" width="150px"  header-align="center" align="left"/>
       <el-table-column label="技术参数"  prop="techParam" width="300"  header-align="center" align="left">
         <template slot-scope="scoped">
@@ -87,8 +86,8 @@
       </el-table-column>
       <el-table-column label="数量" align="center" prop="num" />
       <el-table-column label="图号" align="center" prop="pictureNum" />
-      <el-table-column label="厂家" align="center" prop="productor" width="200px" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="厂家" align="center" prop="productor" width="150px" />
+      <el-table-column label="备注" width="200" header-align="center" prop="remark" />
       <el-table-column prop="attach" label="附件管理" align="center">
         <template slot-scope="scope">
           <el-button
@@ -683,12 +682,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-/deep/ .el-input--small .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-}
-/deep/ .el-form-item--mini.el-form-item {
-    margin-bottom: 15px;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" size="mini">
+    <el-form class="form1" :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <!-- <el-form-item label="设备ID" prop="equipId">
         <el-input
           v-model="queryParams.equipId"
@@ -83,30 +83,26 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="信息ID" align="center" prop="informationId" />
-      <el-table-column label="设备名称" align="center" prop="equipName" width="150" />
-      <el-table-column width="150" label="设备型号" align="center" prop="specification" />
-      <el-table-column prop="equipParam"
-                       align="left"
-                       width="280"
-                       label="设备参数">
+    <el-table class="custom-table" stripe v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
+      <el-table-column type="selection" align="center" width="40"/>
+      <el-table-column label="设备名称" header-align="center" prop="equipName" width="120" />
+      <el-table-column width="120" label="设备型号" prop="specification" header-align="center" />
+      <el-table-column prop="equipParam" align="left" width="250" label="设备参数" header-align="center">
         <template slot-scope="scope">
           <span v-html="scope.row.equipParam"></span>
         </template>
       </el-table-column>
-      <el-table-column label="技术要求" align="center" prop="techParam" />
-      <el-table-column label="检修周期" align="center" prop="cycle" />
-      <el-table-column label="安装日期" align="center" prop="installTime" width="100">
+      <el-table-column header-align="center" label="技术要求" width="200" prop="techParam" />
+      <el-table-column header-align="center" label="检修周期"  prop="cycle" />
+      <el-table-column header-align="center" label="安装日期" prop="installTime" width="100">
         <template slot-scope="scope">
           <span>{{ (scope.row.installTime!=null?scope.row.installTime.substr(0, 10):scope.row.installTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="安装地点" align="center" prop="installPlace" width="180">
+      <el-table-column header-align="center" label="安装地点" prop="installPlace" width="150">
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" align="center">
+      <el-table-column header-align="center" label="备注" prop="remark" width="200" />
+      <el-table-column header-align="center" prop="attach" label="附件管理">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -116,7 +112,7 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width='150' class-name="small-padding fixed-width">
+      <el-table-column header-align="center" label="操作" width='150' class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -681,15 +677,20 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/deep/ .el-table__body-wrapper.is-scrolling-left {
-  min-height: 300px;
+<style lang="scss">
+// /deep/ .el-input--small .el-input__inner {
+//     height: 28px;
+//     line-height: 28px;
+// }
+// /deep/ .el-form-item--mini.el-form-item {
+//     margin-bottom: 15px;
+// }
+.custom-table /deep/ .el-table__body-wrapper.is-scrolling-left {
+    overflow-x: auto;
+    min-height: 300px;
 }
-/deep/ .el-input--small .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-}
-/deep/ .el-form-item--mini.el-form-item {
+
+.form1 .el-form-item {
     margin-bottom: 15px;
-}
+} 
 </style>

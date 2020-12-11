@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form class="form1" :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <!-- <el-form-item label="设备ID" prop="equipId">
         <el-input
           v-model="queryParams.equipId"
@@ -85,8 +85,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="alterationList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="变更ID" align="center" prop="alterationId" />
+      <el-table-column type="selection" width="40" align="center" />
       <!-- <el-table-column label="设备ID" align="center" prop="equipId" /> -->
       <el-table-column label="设备名称" width='150' header-align="center" prop="equipName" />
       <el-table-column label="变动原因" width='500' header-align="center" prop="reason" />
@@ -664,12 +663,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-/deep/ .el-input--small .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-}
-/deep/ .el-form-item--mini.el-form-item {
-    margin-bottom: 15px;
-}
-</style>
