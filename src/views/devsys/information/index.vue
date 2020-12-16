@@ -142,7 +142,7 @@
     />
 
      <!-- 上传附件对话框 -->
-    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :close-on-click-modal="false" append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -203,7 +203,7 @@
     </el-dialog>
 
        <!-- 导入对话框  :auto-upload="false"   :http-request="handleUploadForm2"  -->
-    <el-dialog append-to-body :title="upload.title" :visible.sync="upload.open" width="400px">
+    <el-dialog :close-on-click-modal="false" append-to-body :title="upload.title" :visible.sync="upload.open" width="400px">
       <el-upload
         ref="upload"
         :limit="1"
@@ -231,11 +231,8 @@
 
 
     <!-- 添加或修改设备信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px">
+    <el-dialog :close-on-click-modal="false" :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-<!--        <el-form-item label="设备ID" prop="equipId">-->
-<!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
-<!--        </el-form-item>-->
         <el-row>
           <el-col :span="12">
             <el-form-item label="设备名称" prop="equipName">
@@ -269,7 +266,7 @@
           </el-col>
           <el-col :span='12'>
             <el-form-item label="安装日期" prop="installTime">
-              <el-date-picker clearable size="small" style="width: 200px"
+              <el-date-picker clearable style="width: 200px"
                 v-model="form.installTime"
                 type="date"
                 value-format="yyyy-MM-dd"
@@ -685,7 +682,7 @@ export default {
 // /deep/ .el-form-item--mini.el-form-item {
 //     margin-bottom: 15px;
 // }
-.custom-table /deep/ .el-table__body-wrapper.is-scrolling-left {
+.custom-table /deep/ .el-table__body-wrapper {
     overflow-x: auto;
     min-height: 300px;
 }

@@ -129,7 +129,7 @@
     />
 
     <!-- 上传附件对话框 -->
-    <el-dialog append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :close-on-click-modal="false" append-to-body title="附件管理" :visible.sync="dialogVisible" width="50%">
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -189,7 +189,7 @@
     </el-dialog>
 
        <!-- 导入对话框  :auto-upload="false"   :http-request="handleUploadForm2"  -->
-    <el-dialog append-to-body :title="upload.title"  :visible.sync="upload.open" width="400px">
+    <el-dialog :close-on-click-modal="false" append-to-body :title="upload.title"  :visible.sync="upload.open" width="400px">
       <el-upload
         ref="upload"
         :limit="1"
@@ -219,7 +219,7 @@
     </el-dialog>
 
     <!-- 添加或修改附属设备明细对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="750px">
+    <el-dialog :close-on-click-modal="false" :title="title" :visible.sync="open" width="750px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 <!--        <el-form-item label="设备ID" prop="equipId">-->
 <!--          <el-input v-model="form.equipId" placeholder="请输入设备ID" />-->
