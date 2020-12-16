@@ -84,7 +84,7 @@
     </el-row>
 
     <el-table class="custom-table" stripe v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
-      <el-table-column type="selection" align="center" width="40"/>
+      <el-table-column type="selection" align="center" width="42"/>
       <el-table-column label="设备名称" header-align="center" prop="equipName" width="120" />
       <el-table-column width="120" label="设备型号" prop="specification" header-align="center" />
       <el-table-column prop="equipParam" align="left" width="250" label="设备参数" header-align="center">
@@ -102,7 +102,7 @@
       <el-table-column header-align="center" label="安装地点" prop="installPlace" width="150">
       </el-table-column>
       <el-table-column header-align="center" label="备注" prop="remark" width="200" />
-      <el-table-column header-align="center" prop="attach" label="附件管理">
+      <el-table-column align="center" prop="attach" label="附件管理" width="150px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -683,11 +683,12 @@ export default {
 //     margin-bottom: 15px;
 // }
 .custom-table /deep/ .el-table__body-wrapper {
-    overflow-x: auto;
+    // overflow-x: auto;
     min-height: 300px;
 }
 
 .form1 .el-form-item {
     margin-bottom: 15px;
 } 
+
 </style>

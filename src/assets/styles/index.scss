@@ -190,3 +190,12 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6;
+}
