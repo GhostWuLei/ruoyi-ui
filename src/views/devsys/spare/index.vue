@@ -75,20 +75,20 @@
       </el-col>
     </el-row>
 
-    <el-table border stripe v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="spareList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center" />
-      <el-table-column label="备件名称" align="center" prop="spareName" width="150" />
-      <el-table-column label="规格型号"  prop="specification" width="150px"  header-align="center" align="left"/>
-      <el-table-column label="技术参数"  prop="techParam" width="300"  header-align="center" align="left">
+      <el-table-column label="备件名称" align="center" prop="spareName" min-width="150" />
+      <el-table-column label="规格型号"  prop="specification" min-width="150px"  header-align="center" align="left"/>
+      <el-table-column label="技术参数"  prop="techParam" min-width="280"  header-align="center" align="left">
         <template slot-scope="scoped">
           <span v-html="scoped.row.techParam"></span>
         </template>
       </el-table-column>
-      <el-table-column label="数量" align="center" prop="num" />
-      <el-table-column label="图号" align="center" prop="pictureNum" />
-      <el-table-column label="厂家" align="center" prop="productor" width="150px" />
-      <el-table-column label="备注" width="200" header-align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" align="center">
+      <el-table-column label="数量" width="50" align="center" prop="num" />
+      <el-table-column label="图号" min-width="120" align="center" prop="pictureNum" />
+      <el-table-column label="厂家" align="center" prop="productor" min-width="150px" />
+      <el-table-column label="备注" min-width="150" header-align="center" prop="remark" />
+      <!-- <el-table-column prop="attach" label="附件管理" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -97,9 +97,15 @@
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
         </template>
-      </el-table-column>
-      <el-table-column width='150' label="操作" align="center" class-name="small-padding fixed-width">
+      </el-table-column> -->
+      <el-table-column width='165' label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.spareId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"

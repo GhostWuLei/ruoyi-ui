@@ -87,22 +87,22 @@
       </el-col>
     </el-row>
 
-    <el-table stripe border v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="40" align="center" />
-      <el-table-column label="检修内容" width='550' prop="repairContent">
+    <el-table v-loading="loading" :data="repairList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" min-width="40" align="center" />
+      <el-table-column label="检修内容" min-width='550' prop="repairContent">
          <template slot-scope="scoped">
           <span v-html="scoped.row.repairContent"></span>
         </template>
       </el-table-column>
-      <el-table-column label="处理问题" header-align="center" width='150' prop="handleProblem" />
-      <el-table-column label="遗留问题" header-align="center" width='150' prop="remainProblem" />
+      <el-table-column label="处理问题" header-align="center" min-width='150' prop="handleProblem" />
+      <el-table-column label="遗留问题" header-align="center" min-width='150' prop="remainProblem" />
       <el-table-column label="检修级别" align="center" prop="repairLevel" />
-      <el-table-column width='100' label="开始时间" align="center" prop="startTime" >
+      <el-table-column min-width='100' label="开始时间" align="center" prop="startTime" >
         <template slot-scope="scope">
           <span>{{ (scope.row.startTime !=null ? scope.row.startTime.substr(0, 10):scope.row.startTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width='100' label="结束时间" align="center" prop="finishTime" >
+      <el-table-column min-width='100' label="结束时间" align="center" prop="finishTime" >
         <template slot-scope="scope">
         <span>{{ (scope.row.finishTime !=null ? scope.row.finishTime.substr(0, 10):scope.row.finishTime) }}</span>
       </template>
@@ -111,8 +111,8 @@
       <el-table-column label="检修单位" width="100" align="center" prop="repairUnit" />
       <el-table-column label="负责人" width='80' align="center" prop="leader" />
       <el-table-column label="联系人" width='80' align="center" prop="linkman" />
-      <el-table-column label="备注" width='200' align="center" prop="remark" />
-       <el-table-column label="附件管理" align="center">
+      <el-table-column label="备注" min-width='200' align="center" prop="remark" />
+      <!-- <el-table-column label="附件管理" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -121,9 +121,15 @@
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
         </template>
-      </el-table-column>
-      <el-table-column label="操作" width='150' align="center" class-name="small-padding fixed-width">
+      </el-table-column> -->
+      <el-table-column label="操作" width='165' align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.repairId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"

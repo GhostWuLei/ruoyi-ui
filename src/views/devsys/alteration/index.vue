@@ -87,24 +87,25 @@
     <el-table :close-on-click-modal="false" v-loading="loading" :data="alterationList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center" />
       <!-- <el-table-column label="设备ID" align="center" prop="equipId" /> -->
-      <el-table-column label="设备名称" width='150' header-align="center" prop="equipName" />
-      <el-table-column label="变动原因" width='500' header-align="center" prop="reason" />
-      <el-table-column label="变动效果" width='300' header-align="center" align="left" prop="effect" />
+      <el-table-column label="设备名称" min-width='150' header-align="center" prop="equipName" />
+      <el-table-column label="变动原因" min-width='400' header-align="center" prop="reason" />
+      <el-table-column label="变动效果" min-width='300' header-align="center" align="left" prop="effect" />
       <el-table-column label="负责人" align="center" prop="leader" />
-      <el-table-column label="评价" align="center" prop="evaluate" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" align="center">
+      <el-table-column label="评价" min-width="100" align="center" prop="evaluate" />
+      <el-table-column label="备注" min-width="100" align="center" prop="remark" />
+      <!-- <el-table-column prop="attach" label="附件管理" align="center">
+        <template slot-scope="scope">
+          
+        </template>
+      </el-table-column> -->
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width='165'>
         <template slot-scope="scope">
           <el-button
             size="mini"
-            type="primary"
-            @click="uploadBtnClick(scope.row.alterationId)">
-            <i  class="el-icon-upload el-icon--right">上传</i>
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width='150'>
-        <template slot-scope="scope">
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.alterationId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"

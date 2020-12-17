@@ -83,37 +83,38 @@
       </el-col>
     </el-row>
 
-    <el-table class="custom-table" stripe v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
-      <el-table-column type="selection" align="center" width="42"/>
-      <el-table-column label="设备名称" header-align="center" prop="equipName" width="120" />
-      <el-table-column width="120" label="设备型号" prop="specification" header-align="center" />
-      <el-table-column prop="equipParam" align="left" width="250" label="设备参数" header-align="center">
+    <el-table class="custom-table" v-loading="loading" :data="informationList" @selection-change="handleSelectionChange" style="min-height: 300px" ref="tableList">
+      <el-table-column type="selection" align="center" min-width="42"/>
+      <el-table-column label="设备名称" header-align="center" prop="equipName" min-width="120" />
+      <el-table-column min-width="120" label="设备型号" prop="specification" header-align="center" />
+      <el-table-column prop="equipParam" align="left" min-width="250" label="设备参数" header-align="center">
         <template slot-scope="scope">
           <span v-html="scope.row.equipParam"></span>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" label="技术要求" width="200" prop="techParam" />
-      <el-table-column header-align="center" label="检修周期"  prop="cycle" />
-      <el-table-column header-align="center" label="安装日期" prop="installTime" width="100">
+      <el-table-column header-align="center" label="技术要求" min-width="200" prop="techParam" />
+      <el-table-column header-align="center" label="检修周期"  prop="cycle" width="72" />
+      <el-table-column header-align="center" label="安装日期" prop="installTime" min-width="100">
         <template slot-scope="scope">
           <span>{{ (scope.row.installTime!=null?scope.row.installTime.substr(0, 10):scope.row.installTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" label="安装地点" prop="installPlace" width="150">
+      <el-table-column header-align="center" label="安装地点" prop="installPlace" min-width="150">
       </el-table-column>
-      <el-table-column header-align="center" label="备注" prop="remark" width="200" />
-      <el-table-column align="center" prop="attach" label="附件管理" width="150px">
+      <el-table-column header-align="center" label="备注" prop="remark" min-width="200" />
+      <!-- <el-table-column align="center" prop="attach" label="附件管理" width="150px">
+        <template slot-scope="scope">
+          
+        </template>
+      </el-table-column> -->
+      <el-table-column header-align="center" label="操作" width='165' class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            type="primary"
-            @click="uploadBtnClick(scope.row.informationId)">
-            <i  class="el-icon-upload el-icon--right">上传</i>
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column header-align="center" label="操作" width='150' class-name="small-padding fixed-width">
-        <template slot-scope="scope">
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.informationId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"

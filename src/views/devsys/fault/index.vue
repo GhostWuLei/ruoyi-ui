@@ -76,17 +76,17 @@
           <span>{{ (scope.row.findTime !=null ? scope.row.findTime.substr(0, 10):scope.row.findTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width='200' label="故障现象" prop="appearance"  header-align="center" align="left" />
-      <el-table-column label="分析" width='300' prop="analysis"  header-align="center" align="left" />
-      <el-table-column label="处理日期"  prop="handleTime" width="180"  header-align="center" align="left">
+      <el-table-column min-width='200' label="故障现象" prop="appearance"  header-align="center" align="left" />
+      <el-table-column label="分析" min-width='230' prop="analysis"  header-align="center" align="left" />
+      <el-table-column label="处理日期"  prop="handleTime" width="100"  header-align="center" align="left">
         <template slot-scope="scope">
           <span>{{ (scope.row.handleTime !=null ? scope.row.handleTime.substr(0, 10):scope.row.handleTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column width='200' label="处理过程" prop="process" header-align="center" align="left"/>
-      <el-table-column label="损坏情况"  width='150' prop="damage"  header-align="center" align="center" />
-      <el-table-column label="备注"  prop="remark"  header-align="center" align="center" />
-      <el-table-column prop="attach" label="附件管理"  header-align="center" align="center">
+      <el-table-column min-width='180' label="处理过程" prop="process" header-align="center" align="left"/>
+      <el-table-column label="损坏情况"  min-width='150' prop="damage"  header-align="center" align="center" />
+      <el-table-column label="备注"  prop="remark"  header-align="center" align="center" min-width="150" />
+      <!-- <el-table-column prop="attach" label="附件管理"  header-align="center" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -95,9 +95,15 @@
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
         </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width='150'>
+      </el-table-column> -->
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width='165'>
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.subsidiaryId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"

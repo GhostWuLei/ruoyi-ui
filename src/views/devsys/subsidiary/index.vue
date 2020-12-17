@@ -80,16 +80,16 @@
       </el-col>
     </el-row>
 
-    <el-table stripe v-loading="loading" :data="subsidiaryList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="subsidiaryList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40" align="center" />
-      <el-table-column label="KKS编码" width='140' align="center" prop="kks" />
-      <el-table-column label="设备名称" width='260' align="center" prop="equipName" />
-      <el-table-column label="设备类型" width="100" align="center" prop="subsType" />
-      <el-table-column label="型号" width='200' align="center" prop="specification" />
+      <el-table-column label="KKS编码" min-width='120' align="center" prop="kks" />
+      <el-table-column label="设备名称" min-width='260' align="center" prop="equipName" />
+      <el-table-column label="设备类型" min-width="100" align="center" prop="subsType" />
+      <el-table-column label="型号" min-width='180' align="center" prop="specification" />
       <el-table-column label="单位" align="center" prop="unit" />
-      <el-table-column label="生产厂家" width='130' align="center" prop="productor" />
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column prop="attach" label="附件管理" align="center">
+      <el-table-column label="生产厂家" min-width='130' align="center" prop="productor" />
+      <el-table-column label="备注" min-width="100" align="center" prop="remark" />
+      <!-- <el-table-column prop="attach" label="附件管理" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -98,9 +98,15 @@
             <i  class="el-icon-upload el-icon--right">上传</i>
           </el-button>
         </template>
-      </el-table-column>
-      <el-table-column label="操作" width='150' align="center" class-name="small-padding fixed-width">
+      </el-table-column> -->
+      <el-table-column label="操作" width='165' align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-upload"
+            @click="uploadBtnClick(scope.row.subsidiaryId)"
+          >附件</el-button>
           <el-button
             size="mini"
             type="text"
