@@ -102,7 +102,7 @@
             size="mini"
             type="text"
             icon="el-icon-upload"
-            @click="uploadBtnClick(scope.row.subsidiaryId)"
+            @click="uploadBtnClick(scope.row.faultId)"
           >附件</el-button>
           <el-button
             size="mini"
