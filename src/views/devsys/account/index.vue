@@ -2,7 +2,7 @@
   <div class="app-container" style="padding:0px 0px 20px 15px">
     <el-row :gutter="15" class="box" ref="box">
       <!-- 设备目录树 -->
-      <el-col :span="3" :xs="24" class="left">
+      <el-col :span="4" :xs="24" class="left">
         <div class="head-container">
           <el-input
             v-model="equipName"
@@ -56,7 +56,7 @@
       </div>
 
       <!-- 设备列表 -->
-      <el-col :span="21" :xs="24" class="mid">
+      <el-col :span="20" :xs="24" class="mid">
         <el-tabs type="card">
           <el-tab-pane label="设备信息">
             <information-vue :currentEquipId="this.currentEquipId"></information-vue>
