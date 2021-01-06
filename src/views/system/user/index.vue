@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="15">
+    <el-row :gutter="15" class="box">
       <!--部门数据-->
-      <el-col :span="4" :xs="24">
+      <el-col :span="4" :xs="24" class="left">
         <div class="head-container">
           <el-input
             v-model="deptName"
@@ -33,8 +33,25 @@
           </el-tree>
         </div>
       </el-col>
+
+      <!-- 新增 -->
+      <div class="ivu-split-trigger-con resize" title="收缩侧边栏">
+        <div class="ivu-split-trigger ivu-split-trigger-vertical">
+          <div class="ivu-split-trigger-bar-con vertical">
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+          </div>
+        </div>
+      </div>
+
       <!--用户数据-->
-      <el-col :span="20" :xs="24">
+      <el-col :span="20" :xs="24" class="mid">
         <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
           <el-form-item label="用户名称" prop="userName">
             <el-input
@@ -461,7 +478,55 @@ export default {
       this.initPassword = response.msg;
     });
   },
+  mounted () {
+    this.dragControllerDiv()
+  },
   methods: {
+    dragControllerDiv: function () {
+        var resize = document.getElementsByClassName('resize');
+        var left = document.getElementsByClassName('left');
+        var mid = document.getElementsByClassName('mid');
+        var box = document.getElementsByClassName('box');
+
+        for (let i = 0; i < resize.length; i++) {
+          // 鼠标按下事件
+          resize[i].onmousedown = function (e) {
+            //颜色改变提醒
+            // resize[i].style.background = '#c4c2c2';
+            var startX = e.clientX;
+
+            resize[i].left = resize[i].offsetLeft;
+            // 鼠标拖动事件
+            document.onmousemove = function (e) {
+              var endX = e.clientX;
+              var moveLen = resize[i].left + (endX - startX); // （endx-startx）=移动的距离。resize[i].left+移动的距离=左边区域最后的宽度
+
+              var maxT = box[i].clientWidth - resize[i].offsetWidth; // 容器宽度 - 左边区域的宽度 = 右边区域的宽度
+              console.log(box[i].clientWidth, 22221,maxT, left[i].offsetWidth);
+              if (moveLen < 200) moveLen = 200; // 左边区域的最小宽度为32px
+              if (moveLen > maxT - 750) moveLen = maxT - 750; //右边区域最小宽度为150px
+
+              resize[i].style.left = moveLen; // 设置左侧区域的宽度
+              for (let j = 0; j < left.length; j++) {
+                left[j].style.width = moveLen + 'px';
+                mid[j].style.width = (box[i].clientWidth - moveLen - 10) + 'px';
+              }
+              resize[i].style.left = moveLen + 'px'
+            };
+            // 鼠标松开事件
+            document.onmouseup = function (evt) {
+              //颜色恢复
+              resize[i].style.background = '#d6d6d6';
+              document.onmousemove = null;
+              document.onmouseup = null;
+              resize[i].releaseCapture && resize[i].releaseCapture(); //当你不在需要继续获得鼠标消息就要应该调用ReleaseCapture()释放掉
+            };
+            resize[i].setCapture && resize[i].setCapture(); //该函数在属于当前线程的指定窗口里设置鼠标捕获
+            return false;
+          }
+        }
+      },
+
     /** 条件查询用户列表 */
     getList() {
       this.loading = true;
@@ -671,3 +736,50 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+  .box {
+      position: relative;
+      width: 100%;
+      margin: 1% 0px;
+      display: flex;
+    }
+  .left {
+      width: calc(20% - 10px); /*左侧初始化宽度*/
+    }
+  .ivu-split-trigger-con {
+      .ivu-split-trigger-vertical {
+        width: 4px;
+        height: 100%;
+        background: #f8f8f9;
+        border-top: none;
+        border-bottom: none;
+        cursor: col-resize;
+      }
+      .ivu-split-trigger {
+        position: relative;
+        border: 1px solid #dcdee2;
+        .ivu-split-trigger-bar-con.vertical {
+          left: 0;
+          top: 50%;
+          height: 32px;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+        .ivu-split-trigger-bar-con {
+          position: absolute;
+          overflow: hidden;
+          .ivu-split-trigger-bar {
+            width: 3px;
+            height: 1px;
+            background: rgba(23,35,61,.25);
+            float: left;
+            margin-top: 3px;
+          }
+        }
+      }
+    }
+  .mid {
+    flex: 1;
+    // box-shadow: -1px 4px 5px 3px rgba(190, 189, 189, 0.11);
+  }
+</style>

@@ -51,8 +51,22 @@
         </div>
       </el-col>
 
-      <div class="resize" title="收缩侧边栏">
+      <!-- <div class="resize" title="收缩侧边栏">
         ⋮
+      </div> -->
+      <div class="ivu-split-trigger-con resize" title="收缩侧边栏">
+        <div class="ivu-split-trigger ivu-split-trigger-vertical">
+          <div class="ivu-split-trigger-bar-con vertical">
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+            <i class="ivu-split-trigger-bar"></i>
+          </div>
+        </div>
       </div>
 
       <!-- 设备列表 -->
@@ -160,7 +174,7 @@ export default {
             var maxT = box[i].clientWidth - resize[i].offsetWidth; // 容器宽度 - 左边区域的宽度 = 右边区域的宽度
             console.log(box[i].clientWidth, 22221,maxT, left[i].offsetWidth);
             if (moveLen < 200) moveLen = 200; // 左边区域的最小宽度为32px
-            if (moveLen > maxT - 700) moveLen = maxT - 700; //右边区域最小宽度为150px
+            if (moveLen > maxT - 750) moveLen = maxT - 750; //右边区域最小宽度为150px
 
             resize[i].style.left = moveLen; // 设置左侧区域的宽度
             for (let j = 0; j < left.length; j++) {
@@ -329,24 +343,56 @@ export default {
   // width: calc(20% - 7.5px); /*左侧初始化宽度*/
 }
 /*拖拽区div样式*/
-.resize {
-  cursor: col-resize;
-  position: absolute;
-  left: calc(20% - 135px);
-  top: 200px;
-  background-color: #d6d6d6;
-  border-radius: 5px;
-  margin-top: -10px;
-  width: 10px;
-  height: 50px;
-  font-size: 32px;
-  color: white;
-  z-index: 999;
-}
+// .resize {
+//   cursor: col-resize;
+//   position: absolute;
+//   left: calc(20% - 135px);
+//   top: 200px;
+//   background-color: #d6d6d6;
+//   border-radius: 5px;
+//   margin-top: -10px;
+//   width: 10px;
+//   height: 50px;
+//   font-size: 32px;
+//   color: white;
+//   z-index: 999;
+// }
 /*拖拽区鼠标悬停样式*/
-.resize:hover {
-  color: #696868;
-}
+// .resize:hover {
+//   color: #696868;
+// }
+ .ivu-split-trigger-con {
+    .ivu-split-trigger-vertical {
+      width: 4px;
+      height: 100%;
+      background: #f8f8f9;
+      border-top: none;
+      border-bottom: none;
+      cursor: col-resize;
+    }
+    .ivu-split-trigger {
+      position: relative;
+      border: 1px solid #dcdee2;
+      .ivu-split-trigger-bar-con.vertical {
+        left: 0;
+        top: 50%;
+        height: 32px;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+      .ivu-split-trigger-bar-con {
+        position: absolute;
+        overflow: hidden;
+        .ivu-split-trigger-bar {
+          width: 3px;
+          height: 1px;
+          background: rgba(23,35,61,.25);
+          float: left;
+          margin-top: 3px;
+        }
+      }
+    }
+  }
 /*右侧div'样式*/
 .mid {
   flex: 1;
