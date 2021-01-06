@@ -35,7 +35,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://127.0.0.1:8686`, // 后台服务器地址
+        target: `http://106.14.241.118:8686`, // 后台服务器地址
         changeOrigin: true, // 如果设置成true：发送请求头中host会设置成target
         // 通过pathRewrite重写地址，将前缀/api转为/
         pathRewrite: {
